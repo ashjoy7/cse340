@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('.../partials/head') %>
+<head>
+    <%- include('../partials/head.ejs') %>
+</head>
 <body>
     <div id="wrapper">
-        <%- include('.../partials/header') %>
-        <%- include('.../partials/navigation') %>
+        <%- include('../partials/header.ejs') %>
+        <%- include('../partials/navigation.ejs') %>
 
         <main>
             <%- body %>
         </main>
 
-        <%- include('../partials/footer') %>
+        <%- include('../partials/footer.ejs') %>
     </div>
-    
 </body>
 </html>
