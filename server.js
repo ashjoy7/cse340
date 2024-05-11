@@ -36,3 +36,10 @@ app.listen(port, () => {
 app.get("/", function(req, res){
   res.render("index", {title: "Home"})
 })
+
+//Static files
+app.use(express.static('public'))
+const directoryPath = __dirname;
+app.use('/css', express.static(directoryPath + '/public/css'));
+
+
