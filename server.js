@@ -39,7 +39,10 @@ app.get("/", function(req, res){
 
 //Static files
 app.use(express.static('public'))
+
+// Serve CSS files from the public/css folder
 const directoryPath = __dirname;
 app.use('/css', express.static(directoryPath + '/public/css'));
 
-
+// Serve images from the public/images folder
+app.use('/images', express.static(directoryPath + '/public/images'));

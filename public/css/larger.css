@@ -1,34 +1,211 @@
-
 #top-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px; /* adjust padding as needed */
-    background-color: #f0f0f0; /* adjust background color */
-  
-  
-  .siteName a {
-    text-decoration: none; /* remove underline from site name link */
-    color: #333; /* adjust color as needed */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px; /* adjust padding as needed */
+  background-color: #f0f0f0; /* adjust background color */
+}
+
+#top-header .siteName a {
+  text-decoration: none; /* remove underline from site name link */
+  color: #333; /* adjust color as needed */
+}
+
+#top-header #tools a {
+  text-decoration: none; /* remove underline from My Account link */
+  color: #333; /* adjust color as needed */
+}
+
+#navigation ul {
+  text-align: center;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-around;
+  background-color: rgb(41, 42, 43);
+}
+
+#navigation ul li {
+  margin: 0 10px; /* Add space between the list items */
+  padding: 10px 20px;
+  color:#f0f0f0
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.welcome-message {
+  background-color: #f0f0f0;
+  padding: 20px;
+}
+
+.car-spotlight {
+  position: relative;
+  max-width: 50%; /* Adjust the maximum width as needed */
+  margin: 0 auto; /* Center the spotlight horizontally */
+  margin-bottom: 20px;
+}
+
+.car-image {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.info-card {
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(240, 240, 240, 0.8); /* Adjust transparency here */
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.info-card h2 {
+  margin-top: 0;
+}
+
+.info-card p {
+  margin: 5px 0;
+}
+
+.own-button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.own-button:hover {
+  background-color: #0056b3;
+}
+
+.two-column-section {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.left-column,
+.right-column {
+  width: calc(50% - 10px);
+}
+
+.left-column {
+  margin-right: 10px;
+}
+
+.right-column {
+  margin-left: 10px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+}
+
+.grid-item {
+  text-align: center;
+}
+
+.grid-item img {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.grid-item a {
+  display: block;
+  margin-top: 5px;
+}
+
+/* Updated CSS for responsive layout */
+
+.car-image {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.two-column-section {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.left-column,
+.right-column {
+  width: calc(50% - 10px);
+  margin-right: 10px;
+  margin-bottom: 20px;
+}
+
+.right-column {
+  margin-right: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .car-image {
+      width: 100%;
   }
-  
-  #tools a {
-    text-decoration: none; /* remove underline from My Account link */
-    color: #333; /* adjust color as needed */
+  .left-column,
+  .right-column {
+      width: 100%;
+      margin-right: 0;
   }
 }
 
-#navigation {
-  nav ul {
-    display: flex;
-    justify-content: space-between;
-    padding: 0;
-    list-style-type: none;
+body {
+  background-image: url('/images/site/checkerboard.jpg');
+  background-size: cover;
+  margin: 0;
+  padding: 0;
 }
 
-  nav ul li {
-    padding: 10px 20px;
-    background-color: lightblue;
-    border-radius: 5px;
+#wrapper {
+  max-width: 800px; /* Adjust the maximum width as needed */
+  margin: 0 auto; /* Center the container horizontally */
+  padding: 20px;
+  margin-top: 20px;
+  background-size: cover;
+  background-color: white;
+  background-size: cover;
+  background-position: center;
+  border: 2px solid #007bff; /* Blue border */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
 }
-    }
+
+.grid-item {
+  width: calc(80% - 10px); /* Each item takes up 50% of the column width with a margin of 10px */
+  margin-bottom: 20px; /* Spacing between items */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  padding: 10px; /* Padding around each grid item */
+  background-color: #007bff; /* Blue background */
+  border-radius: 5px; /* Rounded corners */
+  display: flex; /* Use flexbox */
+  flex-direction: column; /* Arrange child elements vertically */
+  justify-content: flex-end; /* Align child elements to the bottom */
+}
+
+.grid-item img {
+  width: 100%; /* Image takes up 100% of its container */
+  height: auto; /* Automatically adjust height to maintain aspect ratio */
+  align-self: center; /* Center the image horizontally */
+}
+
+.grid-item a {
+  text-align: center; /* Center the link text */
+  color: #fff; /* White text color */
+  text-decoration: none; /* Remove underline */
+  margin-top: 10px; /* Add space between image and link */
+}
