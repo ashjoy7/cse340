@@ -1,3 +1,13 @@
+/* Global styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-image: url('/images/site/checkerboard.jpg');
+  background-size: cover;
+}
+
+/* Header */
 #top-header {
   display: flex;
   justify-content: space-between;
@@ -16,6 +26,7 @@
   color: #333; /* adjust color as needed */
 }
 
+/* Navigation */
 #navigation ul {
   text-align: center;
   list-style-type: none;
@@ -29,20 +40,16 @@
 #navigation ul li {
   margin: 0 10px; /* Add space between the list items */
   padding: 10px 20px;
-  color:#f0f0f0
+  color: #f0f0f0;
 }
 
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
+/* Welcome message */
 .welcome-message {
   background-color: #f0f0f0;
   padding: 20px;
 }
 
+/* Car spotlight */
 .car-spotlight {
   position: relative;
   max-width: 50%; /* Adjust the maximum width as needed */
@@ -76,7 +83,7 @@ body {
 }
 
 .own-button {
-  background-color: #007bff;
+  background-color: #003f83;
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -87,9 +94,10 @@ body {
 }
 
 .own-button:hover {
-  background-color: #0056b3;
+  background-color: #004417;
 }
 
+/* Two-column section */
 .two-column-section {
   display: flex;
   justify-content: space-between;
@@ -109,6 +117,7 @@ body {
   margin-left: 10px;
 }
 
+/* Grid layout */
 .grid-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -117,80 +126,11 @@ body {
 
 .grid-item {
   text-align: center;
-}
-
-.grid-item img {
-  width: 100%;
-  border-radius: 5px;
-}
-
-.grid-item a {
-  display: block;
-  margin-top: 5px;
-}
-
-/* Updated CSS for responsive layout */
-
-.car-image {
-  width: 100%;
-  height: auto;
-  border-radius: 5px;
-}
-
-.two-column-section {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.left-column,
-.right-column {
-  width: calc(50% - 10px);
-  margin-right: 10px;
-  margin-bottom: 20px;
-}
-
-.right-column {
-  margin-right: 0;
-}
-
-@media screen and (max-width: 768px) {
-  .car-image {
-      width: 100%;
-  }
-  .left-column,
-  .right-column {
-      width: 100%;
-      margin-right: 0;
-  }
-}
-
-body {
-  background-image: url('/images/site/checkerboard.jpg');
-  background-size: cover;
-  margin: 0;
-  padding: 0;
-}
-
-#wrapper {
-  max-width: 800px; /* Adjust the maximum width as needed */
-  margin: 0 auto; /* Center the container horizontally */
-  padding: 20px;
-  margin-top: 20px;
-  background-size: cover;
-  background-color: white;
-  background-size: cover;
-  background-position: center;
-  border: 2px solid #007bff; /* Blue border */
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
-}
-
-.grid-item {
   width: calc(80% - 10px); /* Each item takes up 50% of the column width with a margin of 10px */
   margin-bottom: 20px; /* Spacing between items */
   box-sizing: border-box; /* Include padding and border in the element's total width and height */
   padding: 10px; /* Padding around each grid item */
-  background-color: #007bff; /* Blue background */
+  background-color: #003f83; /* Blue background */
   border-radius: 5px; /* Rounded corners */
   display: flex; /* Use flexbox */
   flex-direction: column; /* Arrange child elements vertically */
@@ -208,4 +148,32 @@ body {
   color: #fff; /* White text color */
   text-decoration: none; /* Remove underline */
   margin-top: 10px; /* Add space between image and link */
+}
+
+.grid-item:hover {
+  background-color: #004417;
+}
+
+/* Responsive layout */
+@media screen and (max-width: 768px) {
+  .car-image {
+    width: 100%;
+  }
+  .left-column,
+  .right-column {
+    width: 100%;
+    margin-right: 0;
+  }
+}
+
+/* Wrapper */
+#wrapper {
+  max-width: 800px; /* Adjust the maximum width as needed */
+  margin: 0 auto; /* Center the container horizontally */
+  padding: 20px;
+  margin-top: 20px;
+  background-color: white;
+  border: 2px solid #007bff; /* Blue border */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
 }
