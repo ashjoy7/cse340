@@ -6,22 +6,15 @@ const Util = {};
  ************************** */
 Util.getNav = async function () {
   let data = await invModel.getClassifications();
-  let list = "<ul>";
-  list += '<li><a href="/" title="Home page">Home</a></li>';
+  let navItems = [];
+  navItems.push({ link: "/", name: "Home" });
   data.rows.forEach((row) => {
-    list += "<li>";
-    list +=
-      '<a href="/inv/type/' +
-      row.classification_id +
-      '" title="See our inventory of ' +
-      row.classification_name +
-      ' vehicles">' +
-      row.classification_name +
-      "</a>";
-    list += "</li>";
+    navItems.push({
+      link: "/inv/type/" + row.classification_id,
+      name: row.classification_name
+    });
   });
-  list += "</ul>";
-  return list;
+  return navItems;
 }
 
 module.exports = Util;
