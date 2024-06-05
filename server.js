@@ -36,10 +36,7 @@ app.listen(port, () => {
 });
 
 // Index route
-app.get("/", (req, res) => {
-  baseController.buildHome(req, res);
-  res.render("index", { title: "Home" });
-});
+app.get("/", baseController.buildHome);
 
 // Inventory routes
 app.use("/inv", inventoryRoute);
