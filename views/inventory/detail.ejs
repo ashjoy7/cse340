@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head.ejs') %>
+    <link href="/css/larger.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/smaller.css" rel="stylesheet" type="text/css"/>
+    <title><%= title %></title>
+</head>
+<body>
+    <div id="wrapper">
+        <%- include('../partials/header.ejs') %>
+        <%- include('../partials/navigation.ejs', { nav: nav }) %>
+
+        <main>
+            <h1><%= title %></h1>
+            <%- detailHtml %>
+        </main>
+
+        <%- include('../partials/footer.ejs') %>
+    </div>
+</body>
+</html>

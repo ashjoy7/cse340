@@ -177,3 +177,16 @@ body {
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
 }
+
+/* Vehicle detail */
+.vehicle-detail {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.vehicle-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

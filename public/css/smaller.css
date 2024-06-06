@@ -39,3 +39,16 @@
     }
   
  } 
+
+ /* Responsive layout */
+ .vehicle-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.vehicle-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
