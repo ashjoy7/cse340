@@ -3,7 +3,7 @@ const pool = require("../database/");
 /* ***************************
  *  Get all classification data
  * ************************** */
-async function getInventory(){
+async function getClassifications(){
   return await pool.query("SELECT * FROM public.classification ORDER BY classification_name")
 }
 
