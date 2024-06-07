@@ -15,14 +15,14 @@ Util.getNav = async function () {
     });
   });
   return navItems;
-}
+};
 
 /* ************************
  * Constructs the vehicle detail HTML
  ************************** */
 Util.buildVehicleDetail = function (vehicle) {
   let detailHtml = `<div class="vehicle-detail">
-                      <img src="${vehicle.inv_image}" alt="Image of ${vehicle.inv_make} ${vehicle.inv_model}">
+                      <img src="/images/vehicles/${vehicle.inv_image}" alt="Image of ${vehicle.inv_make} ${vehicle.inv_model}">
                       <div class="vehicle-info">
                         <h2>${vehicle.inv_make} ${vehicle.inv_model}</h2>
                         <p>Year: ${vehicle.inv_year}</p>
@@ -43,15 +43,15 @@ Util.buildClassificationGrid = async function(data){
     grid = '<ul id="inv-display">';
     data.forEach(vehicle => { 
       grid += '<li>';
-      grid +=  '<a href="../../inv/detail/'+ vehicle.inv_id 
+      grid +=  '<a href="/inv/detail/'+ vehicle.inv_id 
       + '" title="View ' + vehicle.inv_make + ' '+ vehicle.inv_model 
-      + 'details"><img src="' + vehicle.inv_thumbnail 
+      + ' details"><img src="/images/vehicles/' + vehicle.inv_thumbnail 
       +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model 
       +' on CSE Motors" /></a>';
       grid += '<div class="namePrice">';
       grid += '<hr />';
       grid += '<h2>';
-      grid += '<a href="../../inv/detail/' + vehicle.inv_id +'" title="View ' 
+      grid += '<a href="/inv/detail/' + vehicle.inv_id +'" title="View ' 
       + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">' 
       + vehicle.inv_make + ' ' + vehicle.inv_model + '</a>';
       grid += '</h2>';
