@@ -7,7 +7,7 @@ const invCont = {}
  *  Build inventory by classification view
  * ************************** */
 invCont.buildByClassificationId = async function (req, res, next) {
-  const classification_id = req.params.classificationId
+  const classification_id = req.params.classification_Id
   const data = await invModel.getInventoryByClassificationId(classification_id)
   if (!data || data.length === 0) {
     // Handle the case where no data is returned
