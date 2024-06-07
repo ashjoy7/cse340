@@ -19,14 +19,23 @@ const inventoryRoute = require("./routes/inventoryRoute"); // Add this line
 app.set("view engine", "ejs");
 app.use(expressLayouts);
 app.set("layout", "./layouts/layout"); // not at views root
-app.use(staticRoute);
+
+// Static files
+app.use(express.static('public'));
+
+// Serve CSS files from the public/css folder
+const directoryPath = __dirname;
+app.use('/css', express.static(directoryPath + '/public/css'));
+
+// Serve images from the public/images folder
+app.use('/images', express.static(directoryPath + '/public/images'));
 
 /* ***********************
  * Local Server Information
  * Values from .env (environment) file
  *************************/
-const port = process.env.PORT;
-const host = process.env.HOST;
+const port = process.env.PORT || 3000; // Add a fallback port
+const host = process.env.HOST || 'localhost';
 
 /* ***********************
  * Log statement to confirm server operation
@@ -40,13 +49,3 @@ app.get("/", baseController.buildHome);
 
 // Inventory routes
 app.use("/inv", inventoryRoute);
-
-// Static files
-app.use(express.static('public'));
-
-// Serve CSS files from the public/css folder
-const directoryPath = __dirname;
-app.use('/css', express.static(directoryPath + '/public/css'));
-
-// Serve images from the public/images folder
-app.use('/images', express.static(directoryPath + '/public/images'));
