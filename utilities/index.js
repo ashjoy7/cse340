@@ -23,7 +23,7 @@ Util.getNav = async function () {
 Util.buildVehicleDetail = function (vehicle) {
   let detailHtml = `
     <div class="vehicle-detail">
-      <img class="vehicle-image" src="${vehicle.inv_image}" alt="Image of ${vehicle.inv_make} ${vehicle.inv_model}">
+      <img class="vehicle-image" src="/images/vehicles/${vehicle.inv_image}" alt="Image of ${vehicle.inv_make} ${vehicle.inv_model}">
       <div class="vehicle-info">
         <h1>${vehicle.inv_make} ${vehicle.inv_model}</h1>
         <p><strong>Year:</strong> ${vehicle.inv_year}</p>
@@ -52,8 +52,8 @@ Util.buildClassificationGrid = async function (data) {
         vehicle.inv_make +
         " " +
         vehicle.inv_model +
-        ' details"><img src="' +
-        vehicle.inv_image +
+        ' details"><img src="/images/vehicles/' +
+        vehicle.inv_thumbnail +
         '" alt="Image of ' +
         vehicle.inv_make +
         " " +
