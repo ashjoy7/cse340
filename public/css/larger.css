@@ -190,3 +190,71 @@ body {
   flex-direction: column;
   justify-content: center;
 }
+
+.vehicle-detail {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin: 20px;
+}
+
+.vehicle-image {
+  max-width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.vehicle-info {
+  max-width: 600px;
+}
+
+.vehicle-info h1 {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.vehicle-info p {
+  font-size: 1.2em;
+  margin: 5px 0;
+}
+
+.vehicle-info strong {
+  font-weight: bold;
+}
+
+#inv-display {
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+  padding: 0;
+}
+
+#inv-display li {
+  flex: 1 1 30%;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+}
+
+#inv-display img {
+  max-width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.namePrice {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.namePrice h2 {
+  font-size: 1.5em;
+  margin: 5px 0;
+}
+
+.namePrice span {
+  font-size: 1.2em;
+  color: #333;
+}
