@@ -52,7 +52,7 @@ Util.buildClassificationGrid = async function (data) {
         vehicle.inv_make +
         " " +
         vehicle.inv_model +
-        ' details"><img src="/images/vehicles/' +
+        ' details"><img src="public/images/vehicles/' +
         vehicle.inv_thumbnail +
         '" alt="Image of ' +
         vehicle.inv_make +
