@@ -11,7 +11,33 @@ const env = require("dotenv").config();
 const app = express();
 const staticRoute = require("./routes/static");
 const baseController = require("./controllers/baseController");
-const inventoryRoute = require("./routes/inventoryRoute"); // Add this line
+const inventoryRoute = require("./routes/inventoryRoute");
+const session = require("express-session")
+const pool = require('./database/')
+const bodyParser = require("body-parser")
+
+/* ***********************
+ * Middleware
+ * ************************/
+app.use(session({
+  store: new (require('connect-pg-simple')(session))({
+    createTableIfMissing: true,
+    pool,
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  name: 'sessionId',
+}))
+
+
+// Express Messages Middleware
+app.use(require('connect-flash')())
+app.use(function(req, res, next){
+  res.locals.messages = require('express-messages')(req, res)
+  next()
+})
+
 
 /* ***********************
  * View Engine and Templates
@@ -28,7 +54,7 @@ const directoryPath = __dirname;
 app.use('/css', express.static(directoryPath + '/public/css'));
 
 // Serve images from the public/images folder
-app.use('/images', express.static(directoryPath + '/public/images'));
+app.use('/public/images', express.static(directoryPath + '/public/images'));
 
 /* ***********************
  * Local Server Information
@@ -49,3 +75,9 @@ app.get("/", baseController.buildHome);
 
 // Inventory routes
 app.use("/inv", inventoryRoute);
+
+// Account routes
+app.use("/account", require("./routes/accountRoute"))
+
+// Route to build login view
+router.get("/login", utilities.handleErrors(accountController.buildLogin))
