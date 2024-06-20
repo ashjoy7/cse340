@@ -1,15 +1,23 @@
+// Required Resources
+const utilities = require('../utilities/index');
+
 /* ****************************************
-*  Deliver registration view
-* *************************************** */
-async function buildRegister(req, res, next) {
-    let nav = await utilities.getNav()
-    res.render("account/register", {
-      title: "Register",
+ *  Deliver login view
+ * *************************************** */
+async function buildLogin(req, res, next) {
+  try {
+    let nav = await utilities.getNav();
+    res.render('account/login', {
+      title: 'Login',
       nav,
-    })
+    });
+  } catch (error) {
+    next(error);
   }
-  
-  module.exports = { buildLogin, buildRegister }
+}
+
+module.exports = { buildLogin };
+
 
   /* ****************************************
 *  Process Registration

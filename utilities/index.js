@@ -90,3 +90,14 @@ Util.buildClassificationGrid = async function (data) {
 };
 
 module.exports = Util;
+
+/* ************************
+ * Handle async errors
+ ************************** */
+Util.handleErrors = function (fn) {
+  return function (req, res, next) {
+    fn(req, res, next).catch(next);
+  };
+};
+
+module.exports = Util;
