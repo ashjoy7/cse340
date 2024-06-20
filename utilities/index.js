@@ -92,10 +92,10 @@ Util.buildClassificationGrid = async function (data) {
 /* ************************
  * Handle async errors
  ************************** */
-Util.handleErrors = function (fn) {
+Util.handleErrors = function () {
   return async function (req, res, next) {
     try {
-      await fn(req, res, next);
+      await (req, res, next);
     } catch (error) {
       console.error("Error in async function:", error);
       next(error); // Pass error to Express's error handler
