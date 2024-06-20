@@ -1,4 +1,3 @@
-// Require necessary modules
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
@@ -28,10 +27,9 @@ app.use(flash()); // Initialize connect-flash middleware
 
 // Middleware to make flash messages available in all views
 app.use(function(req, res, next) {
-  res.locals.messages = req.flash('notice') || [];
+  res.locals.messages = req.flash(); // Fetch all types of flash messages
   next();
 });
-
 
 /* ***********************
  * View Engine and Templates
