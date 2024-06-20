@@ -1,14 +1,13 @@
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
-const flash = require('connect-flash'); // Add connect-flash module
-const env = require('dotenv').config();
+const flash = require('connect-flash');
+const dotenv = require('dotenv').config();
 const app = express();
-const staticRoute = require('./routes/static');
 const baseController = require('./controllers/baseController');
 const inventoryRoute = require('./routes/inventoryRoute');
-const accountRoute = require('./routes/accountRoute'); // Correct route import
-const pool = require('./database/'); // Ensure you have your database connection correctly imported
+const accountRoute = require('./routes/accountRoute');
+const pool = require('./database/');
 const bodyParser = require('body-parser');
 
 // Middleware for session and flash messages
@@ -23,20 +22,18 @@ app.use(session({
   name: 'sessionId',
 }));
 
-app.use(flash()); // Initialize connect-flash middleware
+app.use(flash());
 
 // Middleware to make flash messages available in all views
 app.use(function(req, res, next) {
-  res.locals.messages = req.flash(); // Fetch all types of flash messages
+  res.locals.messages = req.flash();
   next();
 });
 
-/* ***********************
- * View Engine and Templates
- *************************/
+// View Engine and Layouts
 app.set('view engine', 'ejs');
 app.use(expressLayouts);
-app.set('layout', './layouts/layout'); // not at views root
+app.set('layout', './layouts/layout');
 
 // Static files
 app.use(express.static('public'));
@@ -48,16 +45,11 @@ app.use('/css', express.static(directoryPath + '/public/css'));
 // Serve images from the public/images folder
 app.use('/public/images', express.static(directoryPath + '/public/images'));
 
-/* ***********************
- * Local Server Information
- * Values from .env (environment) file
- *************************/
-const port = process.env.PORT || 3000; // Add a fallback port
+// Local Server Information
+const port = process.env.PORT || 3000;
 const host = process.env.HOST || 'localhost';
 
-/* ***********************
- * Log statement to confirm server operation
- *************************/
+// Log statement to confirm server operation
 app.listen(port, () => {
   console.log(`app listening on ${host}:${port}`);
 });
@@ -78,6 +70,6 @@ app.use(function(req, res, next) {
 
 // Handle server errors
 app.use(function(err, req, res, next) {
-  console.error(err.stack);
+  console.error(err);
   res.status(500).send('500: Internal Server Error');
 });
