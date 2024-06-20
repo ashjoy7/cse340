@@ -28,7 +28,7 @@ app.use(flash()); // Initialize connect-flash middleware
 
 // Middleware to make flash messages available in all views
 app.use(function(req, res, next) {
-  res.locals.messages = require('express-messages')(req, res);
+  res.locals.messages = require('connect-flash')(req, res);
   next();
 });
 
