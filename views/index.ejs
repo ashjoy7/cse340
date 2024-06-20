@@ -1,6 +1,12 @@
 <div class="welcome-message">
     <h1>Welcome to CSE Motors!</h1>
-    <%- messages() %>
+    <% if (messages && messages.error) { %>
+        <div class="flash-messages">
+            <% messages.error.forEach(function(message) { %>
+                <div class="alert alert-danger"><%= message %></div>
+            <% }) %>
+        </div>
+    <% } %>
 </div>
 
 <div class="car-spotlight">
