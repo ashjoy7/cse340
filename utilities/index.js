@@ -89,14 +89,17 @@ Util.buildClassificationGrid = async function (data) {
   return grid;
 };
 
-module.exports = Util;
-
 /* ************************
  * Handle async errors
  ************************** */
 Util.handleErrors = function (fn) {
-  return function (req, res, next) {
-    fn(req, res, next).catch(next);
+  return async function (req, res, next) {
+    try {
+      await fn(req, res, next);
+    } catch (error) {
+      console.error("Error in async function:", error);
+      next(error); // Pass error to Express's error handler
+    }
   };
 };
 
