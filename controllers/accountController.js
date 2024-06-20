@@ -1,4 +1,3 @@
-// Required Resources
 const utilities = require('../utilities/index');
 
 /* ****************************************
@@ -10,43 +9,33 @@ async function buildLogin(req, res, next) {
     res.render('account/login', {
       title: 'Login',
       nav,
+      messages: req.flash('notice')
     });
   } catch (error) {
     next(error);
   }
 }
 
-module.exports = { buildLogin };
+/* ****************************************
+ *  Process login attempt
+ * *************************************** */
+async function processLogin(req, res, next) {
+  try {
+    // Assume some login logic here
+    const { email, password } = req.body;
 
-
-  /* ****************************************
-*  Process Registration
-* *************************************** */
-async function registerAccount(req, res) {
-    let nav = await utilities.getNav()
-    const { account_firstname, account_lastname, account_email, account_password } = req.body
-  
-    const regResult = await accountModel.registerAccount(
-      account_firstname,
-      account_lastname,
-      account_email,
-      account_password
-    )
-  
-    if (regResult) {
-      req.flash(
-        "notice",
-        `Congratulations, you\'re registered ${account_firstname}. Please log in.`
-      )
-      res.status(201).render("account/login", {
-        title: "Login",
-        nav,
-      })
-    } else {
-      req.flash("notice", "Sorry, the registration failed.")
-      res.status(501).render("account/register", {
-        title: "Registration",
-        nav,
-      })
+    // Simulate a login failure
+    if (email !== 'test@example.com' || password !== 'password') {
+      req.flash('notice', 'Invalid email or password.');
+      return res.redirect('/account/login');
     }
+
+    // Simulate a successful login
+    req.flash('notice', 'Successfully logged in!');
+    res.redirect('/');
+  } catch (error) {
+    next(error);
   }
+}
+
+module.exports = { buildLogin, processLogin };
