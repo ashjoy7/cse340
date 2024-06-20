@@ -11,6 +11,12 @@ importers:
       body-parser:
         specifier: ^1.20.2
         version: 1.20.2
+      connect-flash:
+        specifier: ^0.1.1
+        version: 0.1.1
+      connect-pg-simple:
+        specifier: ^9.0.1
+        version: 9.0.1
       dotenv:
         specifier: ^16.0.3
         version: 16.4.5
@@ -103,6 +109,14 @@ packages:
 
   concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
+
+  connect-flash@0.1.1:
+    resolution: {integrity: sha512-2rcfELQt/ZMP+SM/pG8PyhJRaLKp+6Hk2IUBNkEit09X+vwn3QsAL3ZbYtxUn7NVPzbMTSLRDhqe0B/eh30RYA==}
+    engines: {node: '>= 0.4.0'}
+
+  connect-pg-simple@9.0.1:
+    resolution: {integrity: sha512-BuwWJH3K3aLpONkO9s12WhZ9ceMjIBxIJAh0JD9x4z1Y9nShmWqZvge5PG/+4j2cIOcguUoa2PSQ4HO/oTsrVg==}
+    engines: {node: '>=16.0.0'}
 
   content-disposition@0.5.4:
     resolution: {integrity: sha512-FveZTNuGw04cxlAiWbzi6zTAL/lhehaWbTtgluJh4/E95DqMwTmha3KZN1aAWA8cFIhHzMZUvLevkw5Rqk+tSQ==}
@@ -628,6 +642,14 @@ snapshots:
   color-name@1.1.4: {}
 
   concat-map@0.0.1: {}
+
+  connect-flash@0.1.1: {}
+
+  connect-pg-simple@9.0.1:
+    dependencies:
+      pg: 8.11.5
+    transitivePeerDependencies:
+      - pg-native
 
   content-disposition@0.5.4:
     dependencies:
