@@ -50,7 +50,8 @@ async function buildRegister(req, res, next) {
     res.render('account/register', {
       title: 'Register',
       nav,
-      messages: req.flash('notice')
+      messages: req.flash('notice'),
+      errors: null // Ensure errors is initialized as null
     });
   } catch (error) {
     next(error);
@@ -58,8 +59,8 @@ async function buildRegister(req, res, next) {
 }
 
 /* ****************************************
-*  Process Registration
-* *************************************** */
+ *  Process Registration
+ * *************************************** */
 async function registerAccount(req, res, next) {
   let nav = await utilities.getNav();
   const { account_firstname, account_lastname, account_email, account_password } = req.body;
@@ -86,6 +87,7 @@ async function registerAccount(req, res, next) {
       res.status(501).render("account/register", {
         title: "Registration",
         nav,
+        errors: null // Ensure errors is initialized as null
       });
     }
   } catch (error) {
