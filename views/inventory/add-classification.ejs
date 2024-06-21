@@ -1,0 +1,30 @@
+<div class="add-classification-container">
+    <h1>Add New Classification</h1>
+
+    <% if (messages && messages.notice) { %>
+        <div class="flash-messages">
+            <% messages.notice.forEach(function(message) { %>
+                <div class="alert alert-success"><%= message %></div>
+            <% }) %>
+        </div>
+    <% } %>
+
+    <% if (errors && errors.length > 0) { %>
+        <ul class="notice">
+            <% errors.forEach(function(error) { %>
+                <li><%= error.msg %></li>
+            <% }) %>
+        </ul>
+    <% } %>
+
+    <form id="addClassificationForm" action="/inv/add-classification" method="post">
+        <div class="form-group">
+            <label for="classification_name">Classification Name:</label>
+            <input type="text" id="classification_name" name="classification_name" required>
+            <span id="classificationNameError" class="error-message"></span>
+        </div>
+        <button type="submit" class="btn-primary">Add Classification</button>
+    </form>
+</div>
+
+<script src="/js/classification-validation.js"></script>
