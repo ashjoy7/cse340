@@ -3,32 +3,34 @@ const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
 const flash = require('connect-flash');
 const dotenv = require('dotenv').config();
-const bodyParser = require('body-parser');
 const app = express();
+const baseController = require('./controllers/baseController');
+const inventoryRoute = require('./routes/inventoryRoute');
+const accountRoute = require('./routes/accountRoute');
 const pool = require('./database/');
-const Util = require('./utilities/index.js'); // Import the Util class
+const bodyParser = require('body-parser');
 
 // Middleware for session and flash messages
 app.use(session({
-  store: new (require('connect-pg-simple')(session))({
-    createTableIfMissing: true,
-    pool,
-  }),
-  secret: process.env.SESSION_SECRET,
-  resave: true,
-  saveUninitialized: true,
-  name: 'sessionId',
+store: new (require('connect-pg-simple')(session))({
+createTableIfMissing: true,
+pool,
+}),
+secret: process.env.SESSION_SECRET,
+resave: true,
+saveUninitialized: true,
+name: 'sessionId',
 }));
 
 app.use(flash());
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 // Middleware to make flash messages available in all views
 app.use(function(req, res, next) {
-  res.locals.messages = req.flash();
-  next();
+res.locals.messages = req.flash();
+next();
 });
 
 // View Engine and Layouts
@@ -52,40 +54,25 @@ const host = process.env.HOST || 'localhost';
 
 // Log statement to confirm server operation
 app.listen(port, () => {
-  console.log(`app listening on ${host}:${port}`);
+console.log(app listening on ${host}:${port});
 });
 
-// Middleware to fetch navigation items and render layout with them
-app.use(async function(req, res, next) {
-  try {
-    const nav = await Util.getNav(); // Fetch navigation items using Util.getNav()
-    res.locals.nav = nav; // Make nav available in all views
-    next();
-  } catch (error) {
-    console.error("Error fetching navigation items:", error);
-    res.locals.nav = []; // Handle error by setting an empty nav array
-    next();
-  }
-});
-
-// Index route - render layout.ejs with nav passed as an object
-app.get('/', (req, res) => {
-  res.render('layout', { nav: res.locals.nav });
-});
+// Index route
+app.get('/', baseController.buildHome);
 
 // Inventory routes
-app.use('/inv', require('./routes/inventoryRoute'));
+app.use('/inv', inventoryRoute);
 
 // Account routes
-app.use('/account', require('./routes/accountRoute'));
+app.use('/account', accountRoute);
 
 // Handle 404 errors
 app.use(function(req, res, next) {
-  res.status(404).send('404: Page not Found');
+res.status(404).send('404: Page not Found');
 });
 
 // Handle server errors
 app.use(function(err, req, res, next) {
-  console.error(err);
-  res.status(500).send('500: Internal Server Error');
+console.error(err);
+res.status(500).send('500: Internal Server Error');
 });
