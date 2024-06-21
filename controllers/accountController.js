@@ -1,3 +1,4 @@
+const bcrypt = require("bcryptjs");
 const utilities = require('../utilities/index');
 const accountModel = require("../models/account-model");
 
@@ -21,7 +22,6 @@ async function buildLogin(req, res, next) {
   }
 }
 
-
 /* ****************************************
  *  Process login attempt
  * *************************************** */
@@ -33,7 +33,7 @@ async function processLogin(req, res, next) {
     // Example: Check credentials against a database
     const user = await accountModel.findByEmail(account_email);
 
-    if (!user || user.account_password !== account_password) {
+    if (!user || !bcrypt.compareSync(account_password, user.account_password)) {
       req.flash('notice', 'Invalid email or password.');
       return res.redirect('/account/login');
     }
@@ -67,7 +67,6 @@ async function buildRegister(req, res, next) {
   }
 }
 
-
 /* ****************************************
  *  Process Registration
  * *************************************** */
@@ -83,12 +82,25 @@ async function registerAccount(req, res, next) {
       return res.redirect('/account/register');
     }
 
+    // Hash the password before storing
+    let hashedPassword;
+    try {
+      hashedPassword = await bcrypt.hashSync(account_password, 10);
+    } catch (error) {
+      req.flash("notice", 'Sorry, there was an error processing the registration.');
+      return res.status(500).render("account/register", {
+        title: "Registration",
+        nav,
+        errors: null,
+      });
+    }
+
     // Register new account
     const regResult = await accountModel.registerAccount(
       account_firstname,
       account_lastname,
       account_email,
-      account_password
+      hashedPassword // Pass hashed password to the model function
     );
 
     if (regResult) {
@@ -112,6 +124,7 @@ async function registerAccount(req, res, next) {
     next(error); // Pass the error to Express error handler
   }
 }
+
 
 module.exports = { 
   buildLogin, 
