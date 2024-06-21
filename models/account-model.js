@@ -14,6 +14,19 @@ async function registerAccount(account_firstname, account_lastname, account_emai
 }
 
 /* **********************
+ *   Find user by email
+ * ********************* */
+async function findByEmail(account_email){
+  try {
+    const sql = "SELECT * FROM account WHERE account_email = $1";
+    const result = await pool.query(sql, [account_email]);
+    return result.rows[0]; // Return the user row if found
+  } catch (error) {
+    throw error; // Throw the error to be caught by the caller
+  }
+}
+
+/* **********************
  *   Check for existing email
  * ********************* */
 async function checkExistingEmail(account_email){
@@ -28,5 +41,6 @@ async function checkExistingEmail(account_email){
 
 module.exports = {
   registerAccount,
+  findByEmail,
   checkExistingEmail // Add the new function to exports
 };
