@@ -57,12 +57,16 @@ async function buildRegister(req, res, next) {
       title: 'Register',
       nav,
       messages: req.flash('notice'),
-      errors: null // Ensure errors is initialized as null
+      errors: null, // Ensure errors is initialized as null if not needed
+      account_firstname: '', // Initialize account_firstname as empty string or fetch from req.body
+      account_lastname: '', // Initialize account_lastname as empty string or fetch from req.body
+      account_email: '' // Initialize account_email as empty string or fetch from req.body
     });
   } catch (error) {
-    next(error); // Pass the error to Express error handler
+    next(error);
   }
 }
+
 
 /* ****************************************
  *  Process Registration
