@@ -121,4 +121,72 @@ invCont.processAddClassification = async function(req, res, next) {
   }
 };
 
+// Build add-inventory view
+invCont.buildAddInventory = async function(req, res, next) {
+  try {
+      let nav = await utilities.getNav();
+      const classificationList = await utilities.buildClassificationList();
+      res.render('inventory/add-inventory', {
+          title: 'Add New Inventory Item',
+          nav,
+          classificationList,
+          messages: req.flash('notice'),
+          errors: []
+      });
+  } catch (error) {
+      next(error);
+  }
+};
+
+// Process adding a new inventory item
+invCont.processAddInventory = async function(req, res, next) {
+  const { inv_make, inv_model, inv_year, inv_price, classification_id, inv_image_path, inv_thumbnail_path } = req.body;
+  let nav = await utilities.getNav();
+
+  try {
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+          const classificationList = await utilities.buildClassificationList(classification_id);
+          return res.render('inventory/add-inventory', {
+              title: 'Add New Inventory Item',
+              nav,
+              classificationList,
+              errors: errors.array(),
+              inv_make,
+              inv_model,
+              inv_year,
+              inv_price,
+              inv_image_path,
+              inv_thumbnail_path
+          });
+      }
+
+      // Insert the new inventory item into the database
+      const result = await invModel.addNewInventoryItem(inv_make, inv_model, inv_year, inv_price, classification_id, inv_image_path, inv_thumbnail_path);
+
+      if (result) {
+          req.flash('notice', 'New inventory item added successfully.');
+          // Redirect to inventory management view or another appropriate view
+          nav = await utilities.getNav(); // Refresh nav after adding inventory item
+          return res.render('inventory/management', {
+              title: 'Inventory Management',
+              nav,
+              messages: req.flash('notice'),
+              errors: []
+          });
+      } else {
+          req.flash('notice', 'Failed to add new inventory item.');
+          return res.render('inventory/add-inventory', {
+              title: 'Add New Inventory Item',
+              nav,
+              messages: req.flash('notice'),
+              errors: []
+          });
+      }
+  } catch (error) {
+      next(error);
+  }
+};
+
 module.exports = invCont;

@@ -20,4 +20,18 @@ router.post('/add-classification', [
     body('classification_name').trim().not().isEmpty().withMessage('Classification name is required.')
 ], invController.processAddClassification);
 
+// Route to deliver add-inventory view
+router.get('/add-inventory', invController.buildAddInventory);
+
+// Route to process adding a new inventory item
+router.post('/add-inventory', [
+    body('inv_make').trim().not().isEmpty().withMessage('Make is required.'),
+    body('inv_model').trim().not().isEmpty().withMessage('Model is required.'),
+    body('inv_year').trim().isNumeric().withMessage('Year must be a valid number.'),
+    body('inv_price').trim().isNumeric().withMessage('Price must be a valid number.'),
+    body('classification_id').trim().not().isEmpty().withMessage('Classification is required.'),
+    body('inv_image_path').trim().not().isEmpty().withMessage('Image path is required.'),
+    body('inv_thumbnail_path').trim().not().isEmpty().withMessage('Thumbnail path is required.')
+], invController.processAddInventory);
+
 module.exports = router;

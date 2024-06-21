@@ -11,7 +11,7 @@ Util.getNav = async function () {
   data.rows.forEach((row) => {
     navItems.push({
       link: "/inv/type/" + row.classification_id,
-      name: row.classification_name
+      name: row.classification_name,
     });
   });
   return navItems;
@@ -52,7 +52,7 @@ Util.buildClassificationGrid = async function (data) {
         vehicle.inv_make +
         " " +
         vehicle.inv_model +
-        ' details"><img src="public/images/vehicles/' +
+        ' details"><img src="/images/vehicles/' +
         vehicle.inv_thumbnail +
         '" alt="Image of ' +
         vehicle.inv_make +
@@ -100,6 +100,21 @@ Util.handleErrors = function (fn) {
       next(err); // Pass the error to Express error handler
     }
   };
+};
+
+/* ************************
+ * Build the classification list for form
+ ************************** */
+Util.buildClassificationList = async function (classification_id = null) {
+  let data = await invModel.getClassifications();
+  let classificationList =
+    '<select name="classification_id" id="classificationList" required>';
+  classificationList += "<option value=''>Choose a Classification</option>";
+  data.rows.forEach((row) => {
+    classificationList += `<option value="${row.classification_id}" ${classification_id == row.classification_id ? 'selected' : ''}>${row.classification_name}</option>`;
+  });
+  classificationList += "</select>";
+  return classificationList;
 };
 
 module.exports = Util;
