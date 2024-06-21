@@ -92,7 +92,7 @@ Util.buildClassificationGrid = async function (data) {
 /* ************************
  * Handle async errors
  ************************** */
-Util.asyncMiddleware = function (fn) {
+Util.handleErrors = function (fn) {
   return function (req, res, next) {
     fn(req, res, next).catch(next);
   };
