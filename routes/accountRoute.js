@@ -9,4 +9,7 @@ router.get('/login', utilities.asyncMiddleware(accountController.buildLogin));
 // Route to handle login form submission
 router.post('/login', utilities.asyncMiddleware(accountController.processLogin));
 
+// Route to handle registration
+router.get('/register', utilities.handleErrors(accountController.buildRegister));
+
 module.exports = router;

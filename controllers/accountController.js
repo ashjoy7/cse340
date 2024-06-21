@@ -1,4 +1,5 @@
 const utilities = require('../utilities/index');
+const accountController = {};
 
 /* ****************************************
  *  Deliver login view
@@ -38,4 +39,20 @@ async function processLogin(req, res, next) {
   }
 }
 
-module.exports = { buildLogin, processLogin };
+/* ****************************************
+ *  Deliver registration view
+ * *************************************** */
+async function buildRegister(req, res, next) {
+  try {
+    let nav = await utilities.getNav();
+    res.render('account/register', {
+      title: 'Register',
+      nav,
+      messages: req.flash('notice')
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+module.exports = { buildLogin, processLogin, buildRegister };
