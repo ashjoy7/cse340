@@ -8,11 +8,12 @@ const Util = {};
 Util.getNav = async function () {
   try {
     let data = await invModel.getClassifications();
+    console.log("Classifications fetched:", data); // Log fetched data
     let navItems = [];
     navItems.push({ link: "/", name: "Home" });
 
-    if (data && data.length > 0) {
-      data.forEach((row) => {
+    if (data && data.rows && data.rows.length > 0) {
+      data.rows.forEach((row) => {
         navItems.push({
           link: "/inv/type/" + row.classification_id,
           name: row.classification_name,
