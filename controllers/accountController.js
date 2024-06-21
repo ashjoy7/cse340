@@ -16,30 +16,32 @@ async function buildLogin(req, res, next) {
       errors: null // Initialize errors as null or fetch from req.flash('error') if needed
     });
   } catch (error) {
-    next(error);
+    next(error); // Pass the error to Express error handler
   }
 }
-
 
 /* ****************************************
  *  Process login attempt
  * *************************************** */
 async function processLogin(req, res, next) {
   try {
-    // Assume some login logic here
-    const { email, password } = req.body;
+    const { account_email, account_password } = req.body;
 
-    // Simulate a login failure
-    if (email !== 'test@example.com' || password !== 'password') {
+    // Implement actual login logic using your accountModel or other authentication strategy
+    // Example: Check credentials against a database
+    const user = await accountModel.findByEmail(account_email);
+
+    if (!user || user.account_password !== account_password) {
       req.flash('notice', 'Invalid email or password.');
       return res.redirect('/account/login');
     }
 
-    // Simulate a successful login
+    // Set session or token for authenticated user
+    req.session.user = user; // Example assuming you use Express session
     req.flash('notice', 'Successfully logged in!');
     res.redirect('/');
   } catch (error) {
-    next(error);
+    next(error); // Pass the error to Express error handler
   }
 }
 
@@ -56,7 +58,7 @@ async function buildRegister(req, res, next) {
       errors: null // Ensure errors is initialized as null
     });
   } catch (error) {
-    next(error);
+    next(error); // Pass the error to Express error handler
   }
 }
 
@@ -68,6 +70,14 @@ async function registerAccount(req, res, next) {
   const { account_firstname, account_lastname, account_email, account_password } = req.body;
 
   try {
+    // Check if email already exists
+    const existingUser = await accountModel.findByEmail(account_email);
+    if (existingUser) {
+      req.flash("notice", "Email already registered.");
+      return res.redirect('/account/register');
+    }
+
+    // Register new account
     const regResult = await accountModel.registerAccount(
       account_firstname,
       account_lastname,
