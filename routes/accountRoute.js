@@ -10,6 +10,6 @@ router.get('/login', utilities.asyncMiddleware(accountController.buildLogin));
 router.post('/login', utilities.asyncMiddleware(accountController.processLogin));
 
 // Route to handle registration
-router.get('/register', utilities.handleErrors(accountController.buildRegister));
+router.get('/register', utilities.asyncMiddleware(accountController.buildRegister));
 
 module.exports = router;
