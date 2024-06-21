@@ -71,12 +71,26 @@ async function buildRegister(req, res, next) {
  *  Process Registration
  * *************************************** */
 async function registerAccount(req, res, next) {
-  let nav = await utilities.getNav();
   const { account_firstname, account_lastname, account_email, account_password } = req.body;
+  let nav = await utilities.getNav();
 
   try {
+    const errors = validationResult(req); // Validate input data
+
+    if (!errors.isEmpty()) {
+      res.render('account/register', {
+        title: 'Registration',
+        nav,
+        errors: errors.array(), // Pass validation errors to the view
+        account_firstname,
+        account_lastname,
+        account_email
+      });
+      return; // Exit function to prevent further execution
+    }
+
     // Check if email already exists
-    const existingUser = await accountModel.findByEmail(account_email);
+    const existingUser = await accountModel.checkExistingEmail(account_email);
     if (existingUser) {
       req.flash("notice", "Email already registered.");
       return res.redirect('/account/register');
@@ -124,7 +138,6 @@ async function registerAccount(req, res, next) {
     next(error); // Pass the error to Express error handler
   }
 }
-
 
 module.exports = { 
   buildLogin, 
