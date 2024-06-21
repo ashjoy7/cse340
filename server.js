@@ -3,12 +3,10 @@ const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
 const flash = require('connect-flash');
 const dotenv = require('dotenv').config();
-const app = express();
-const baseController = require('./controllers/baseController');
-const inventoryRoute = require('./routes/inventoryRoute');
-const accountRoute = require('./routes/accountRoute');
-const pool = require('./database/');
 const bodyParser = require('body-parser');
+const app = express();
+const pool = require('./database/');
+const Util = require('./path_to_your_util_file'); // Adjust path as per your project structure
 
 // Middleware for session and flash messages
 app.use(session({
@@ -24,8 +22,8 @@ app.use(session({
 
 app.use(flash());
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Middleware to make flash messages available in all views
 app.use(function(req, res, next) {
@@ -57,14 +55,29 @@ app.listen(port, () => {
   console.log(`app listening on ${host}:${port}`);
 });
 
-// Index route
-app.get('/', baseController.buildHome);
+// Middleware to fetch navigation items and render layout with them
+app.use(async function(req, res, next) {
+  try {
+    const nav = await Util.getNav(); // Fetch navigation items using Util.getNav()
+    res.locals.nav = nav; // Make nav available in all views
+    next();
+  } catch (error) {
+    console.error("Error fetching navigation items:", error);
+    res.locals.nav = []; // Handle error by setting an empty nav array
+    next();
+  }
+});
+
+// Index route - render layout.ejs with nav passed as an object
+app.get('/', (req, res) => {
+  res.render('layout', { nav: res.locals.nav });
+});
 
 // Inventory routes
-app.use('/inv', inventoryRoute);
+app.use('/inv', require('./routes/inventoryRoute'));
 
 // Account routes
-app.use('/account', accountRoute);
+app.use('/account', require('./routes/accountRoute'));
 
 // Handle 404 errors
 app.use(function(req, res, next) {
