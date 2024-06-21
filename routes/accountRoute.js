@@ -12,6 +12,7 @@ router.post('/login', utilities.handleErrors(accountController.processLogin));
 // Route to handle registration
 router.get('/register', utilities.handleErrors(accountController.buildRegister));
 
-router.post('/register', utilities.handleErrors(accountController.registerAccount))
+// Ensure you use accountController.registerAccount
+router.post('/register', utilities.handleErrors(accountController.registerAccount));
 
 module.exports = router;

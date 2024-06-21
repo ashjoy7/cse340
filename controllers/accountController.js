@@ -1,6 +1,7 @@
 const utilities = require('../utilities/index');
+const accountModel = require("../models/account-model");
+
 const accountController = {};
-const actModel = require("../models/account-model")
 
 /* ****************************************
  *  Deliver login view
@@ -56,8 +57,6 @@ async function buildRegister(req, res, next) {
   }
 }
 
-module.exports = { buildLogin, processLogin, buildRegister };
-
 /* ****************************************
 *  Process Registration
 * *************************************** */
@@ -89,3 +88,11 @@ async function registerAccount(req, res) {
     })
   }
 }
+
+// Export all functions
+module.exports = { 
+  buildLogin, 
+  processLogin, 
+  buildRegister, 
+  registerAccount 
+};
