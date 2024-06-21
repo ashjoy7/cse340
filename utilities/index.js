@@ -11,8 +11,8 @@ Util.getNav = async function () {
     let navItems = [];
     navItems.push({ link: "/", name: "Home" });
 
-    if (data && data.rows && data.rows.length > 0) {
-      data.rows.forEach((row) => {
+    if (data && data.length > 0) {
+      data.forEach((row) => {
         navItems.push({
           link: "/inv/type/" + row.classification_id,
           name: row.classification_name,
@@ -122,8 +122,8 @@ Util.buildClassificationList = async function (classification_id = null) {
       '<select name="classification_id" id="classificationList" required>';
     classificationList += "<option value=''>Choose a Classification</option>";
 
-    if (data && data.rows && data.rows.length > 0) {
-      data.rows.forEach((row) => {
+    if (data && data.length > 0) {
+      data.forEach((row) => {
         classificationList += `<option value="${row.classification_id}" ${classification_id == row.classification_id ? 'selected' : ''}>${row.classification_name}</option>`;
       });
     }
