@@ -13,12 +13,14 @@ async function buildLogin(req, res, next) {
       title: 'Login',
       nav,
       messages: req.flash('notice'),
-      errors: null // Initialize errors as null or fetch from req.flash('error') if needed
+      errors: null,
+      account_email: '' // Initialize account_email as empty string or fetch from req.body
     });
   } catch (error) {
-    next(error); // Pass the error to Express error handler
+    next(error);
   }
 }
+
 
 /* ****************************************
  *  Process login attempt
