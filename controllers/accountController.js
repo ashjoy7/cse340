@@ -1,5 +1,6 @@
 const utilities = require('../utilities/index');
 const accountController = {};
+const actModel = require("../models/account-model")
 
 /* ****************************************
  *  Deliver login view
