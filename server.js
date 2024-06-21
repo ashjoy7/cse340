@@ -24,6 +24,9 @@ app.use(session({
 
 app.use(flash());
 
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
 // Middleware to make flash messages available in all views
 app.use(function(req, res, next) {
   res.locals.messages = req.flash();
