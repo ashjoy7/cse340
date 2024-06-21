@@ -6,7 +6,7 @@ const dotenv = require('dotenv').config();
 const bodyParser = require('body-parser');
 const app = express();
 const pool = require('./database/');
-const Util = require('./path_to_your_util_file'); // Adjust path as per your project structure
+const Util = require('./utilities/index.js'); // Import the Util class
 
 // Middleware for session and flash messages
 app.use(session({
