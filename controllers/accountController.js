@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+const { validationResult } = require("express-validator"); // Import validationResult
 const utilities = require('../utilities/index');
 const accountModel = require("../models/account-model");
 
