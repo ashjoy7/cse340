@@ -9,9 +9,9 @@
         </div>
     <% } %>
 
-    <% if (errors && errors.array().length > 0) { %>
+    <% if (errors && errors.length > 0) { %>
         <ul class="notice">
-            <% errors.array().forEach(function(error) { %>
+            <% errors.forEach(function(error) { %>
                 <li><%= error.msg %></li>
             <% }) %>
         </ul>

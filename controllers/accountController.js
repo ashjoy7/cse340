@@ -84,7 +84,7 @@ async function registerAccount(req, res, next) {
     const errors = validationResult(req); // Validate input data
 
     if (!errors.isEmpty()) {
-      res.render('account/register', {
+      return res.render('account/register', {
         title: 'Registration',
         nav,
         errors: errors.array(), // Pass validation errors to the view
@@ -92,7 +92,6 @@ async function registerAccount(req, res, next) {
         account_lastname,
         account_email
       });
-      return; // Exit function to prevent further execution
     }
 
     // Check if email already exists
@@ -112,6 +111,9 @@ async function registerAccount(req, res, next) {
         title: "Registration",
         nav,
         errors: [], // Ensure errors is defined as an empty array
+        account_firstname,
+        account_lastname,
+        account_email
       });
     }
 
@@ -131,14 +133,18 @@ async function registerAccount(req, res, next) {
       res.status(201).render("account/login", {
         title: "Login",
         nav,
-        errors: [] // Ensure errors is defined as an empty array
+        errors: [], // Ensure errors is defined as an empty array
+        account_email: '' // Initialize account_email as an empty string for the login form
       });
     } else {
       req.flash("notice", "Sorry, the registration failed.");
       res.status(501).render("account/register", {
         title: "Registration",
         nav,
-        errors: [] // Ensure errors is initialized as null
+        errors: [], // Ensure errors is initialized as null
+        account_firstname,
+        account_lastname,
+        account_email
       });
     }
   } catch (error) {
