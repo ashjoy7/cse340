@@ -9,7 +9,7 @@
         </div>
     <% } %>
 
-    <% if (errors && errors.length > 0) { %>
+    <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
         <ul class="notice">
             <% errors.forEach(function(error) { %>
                 <li><%= error.msg %></li>

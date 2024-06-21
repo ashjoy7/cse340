@@ -15,8 +15,7 @@ async function buildLogin(req, res, next) {
       title: 'Login',
       nav,
       messages: req.flash('notice'),
-      errors: null,
-      account_email: '' // Initialize account_email as empty string or fetch from req.body
+      errors: [] // Ensure errors is defined as an empty array
     });
   } catch (error) {
     next(error);
@@ -58,7 +57,7 @@ async function buildRegister(req, res, next) {
       title: 'Register',
       nav,
       messages: req.flash('notice'),
-      errors: null, // Ensure errors is initialized as null if not needed
+      errors: [], // Ensure errors is initialized as empty array if not needed
       account_firstname: '', // Initialize account_firstname as empty string or fetch from req.body
       account_lastname: '', // Initialize account_lastname as empty string or fetch from req.body
       account_email: '' // Initialize account_email as empty string or fetch from req.body
@@ -106,7 +105,7 @@ async function registerAccount(req, res, next) {
       return res.status(500).render("account/register", {
         title: "Registration",
         nav,
-        errors: null,
+        errors: [], // Ensure errors is defined as an empty array
       });
     }
 
@@ -126,13 +125,14 @@ async function registerAccount(req, res, next) {
       res.status(201).render("account/login", {
         title: "Login",
         nav,
+        errors: [] // Ensure errors is defined as an empty array
       });
     } else {
       req.flash("notice", "Sorry, the registration failed.");
       res.status(501).render("account/register", {
         title: "Registration",
         nav,
-        errors: null // Ensure errors is initialized as null
+        errors: [] // Ensure errors is initialized as null
       });
     }
   } catch (error) {
