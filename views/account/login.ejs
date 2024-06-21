@@ -1,30 +1,35 @@
-<div id="wrapper">
-    <main>
-        <div class="login-container">
-            <h1><%= title %></h1>
+<div class="login-container">
+    <h1><%= title %></h1>
 
-            <% if (Array.isArray(messages) && messages.length > 0) { %>
-                <div class="flash-messages">
-                    <% messages.forEach(function(message) { %>
-                        <div class="alert alert-danger"><%= message %></div>
-                    <% }) %>
-                </div>
-            <% } %>
-
-            <form action="/account/login" method="post">
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" class="form-control" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Login</button>
-            </form>
-
-            <p>Don't have an account? <a href="/account/register">Register here</a></p>
+    <% if (messages && messages.notice) { %>
+        <div class="flash-messages">
+            <% messages.notice.forEach(function(message) { %>
+                <div class="alert alert-danger"><%= message %></div>
+            <% }) %>
         </div>
-    </main>
+    <% } %>
 
+    <% if (errors && errors.length > 0) { %>
+        <ul class="notice">
+            <% errors.forEach(function(error) { %>
+                <li><%= error.msg %></li>
+            <% }) %>
+        </ul>
+    <% } %>
+
+    <form id="loginForm" action="/account/login" method="post">
+        <div class="form-group">
+            <label for="account_email">Email:</label>
+            <input type="email" id="account_email" name="account_email" required value="<%= account_email || '' %>">
+            <span id="emailError" class="error-message"></span>
+        </div>
+        <div class="form-group">
+            <label for="account_password">Password:</label>
+            <input type="password" id="account_password" name="account_password" required>
+            <span id="passwordError" class="error-message"></span>
+        </div>
+        <button type="submit" class="btn-primary">Login</button>
+    </form>
 </div>
+
+<script src="/js/login-validation.js"></script>
