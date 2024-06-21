@@ -23,7 +23,7 @@ Util.getNav = async function () {
     return navItems;
   } catch (error) {
     console.error("Error fetching classifications:", error);
-    return []; // Return an empty array or handle error as per your application's needs
+    return [{ link: "/", name: "Home" }]; // Return at least the Home link in case of error
   }
 };
 
