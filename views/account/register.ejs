@@ -9,6 +9,14 @@
         </div>
     <% } %>
 
+    <% if (errors && errors.array().length > 0) { %>
+        <ul class="notice">
+            <% errors.array().forEach(function(error) { %>
+                <li><%= error.msg %></li>
+            <% }) %>
+        </ul>
+    <% } %>
+
     <form action="/account/register" method="post">
         <div class="form-group">
             <label for="account_firstname">First Name:</label>
