@@ -12,12 +12,14 @@ async function buildLogin(req, res, next) {
     res.render('account/login', {
       title: 'Login',
       nav,
-      messages: req.flash('notice')
+      messages: req.flash('notice'),
+      errors: null // Initialize errors as null or fetch from req.flash('error') if needed
     });
   } catch (error) {
     next(error);
   }
 }
+
 
 /* ****************************************
  *  Process login attempt
