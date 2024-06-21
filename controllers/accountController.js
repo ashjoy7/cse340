@@ -15,7 +15,8 @@ async function buildLogin(req, res, next) {
       title: 'Login',
       nav,
       messages: req.flash('notice'),
-      errors: [] // Ensure errors is defined as an empty array
+      errors: [],
+      account_email: '' // Initialize account_email as an empty string
     });
   } catch (error) {
     next(error);
@@ -30,20 +31,25 @@ async function processLogin(req, res, next) {
     const { account_email, account_password } = req.body;
 
     // Implement actual login logic using your accountModel or other authentication strategy
-    // Example: Check credentials against a database
     const user = await accountModel.findByEmail(account_email);
 
     if (!user || !bcrypt.compareSync(account_password, user.account_password)) {
       req.flash('notice', 'Invalid email or password.');
-      return res.redirect('/account/login');
+      return res.render('account/login', {
+        title: 'Login',
+        nav: await utilities.getNav(),
+        messages: req.flash('notice'),
+        errors: [], // Add any specific errors here if needed
+        account_email // Keep the entered email in case of error
+      });
     }
 
     // Set session or token for authenticated user
-    req.session.user = user; // Example assuming you use Express session
+    req.session.user = user;
     req.flash('notice', 'Successfully logged in!');
     res.redirect('/');
   } catch (error) {
-    next(error); // Pass the error to Express error handler
+    next(error);
   }
 }
 
