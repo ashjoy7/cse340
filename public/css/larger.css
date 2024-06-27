@@ -12,33 +12,28 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px; /* adjust padding as needed */
-  background-color: #f0f0f0; /* adjust background color */
+  padding: 10px 20px;
+  background-color: #f0f0f0;
 }
 
-#top-header .siteName a {
-  text-decoration: none; /* remove underline from site name link */
-  color: #333; /* adjust color as needed */
-}
-
+#top-header .siteName a,
 #top-header #tools a {
-  text-decoration: none; /* remove underline from My Account link */
-  color: #333; /* adjust color as needed */
+  text-decoration: none;
+  color: #333;
 }
 
 /* Navigation */
 #navigation ul {
-  text-align: center;
+  display: flex;
+  justify-content: space-around;
   list-style-type: none;
   margin: 0;
   padding: 0;
-  display: flex;
-  justify-content: space-around;
   background-color: rgb(41, 42, 43);
 }
 
 #navigation ul li {
-  margin: 0 10px; /* Add space between the list items */
+  margin: 0 10px;
   padding: 10px 20px;
   color: #f0f0f0;
 }
@@ -51,10 +46,10 @@ body {
 
 /* Car spotlight */
 .car-spotlight {
+  display: flex;
   position: relative;
-  max-width: 50%; /* Adjust the maximum width as needed */
-  margin: 0 auto; /* Center the spotlight horizontally */
-  margin-bottom: 20px;
+  max-width: 50%;
+  margin: 0 auto 20px;
 }
 
 .car-image {
@@ -68,10 +63,17 @@ body {
   top: 50%;
   left: 10%;
   transform: translate(-50%, -50%);
-  background-color: rgba(240, 240, 240, 0.8); /* Adjust transparency here */
+  background-color: rgba(240, 240, 240, 0.8);
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 14px;
+  margin-bottom: 10px;
+  max-height: 200px;
+  max-width: 100%;
 }
 
 .info-card h2 {
@@ -126,28 +128,27 @@ body {
 
 .grid-item {
   text-align: center;
-  width: calc(80% - 10px); /* Each item takes up 50% of the column width with a margin of 10px */
-  margin-bottom: 20px; /* Spacing between items */
-  box-sizing: border-box; /* Include padding and border in the element's total width and height */
-  padding: 10px; /* Padding around each grid item */
-  background-color: #003f83; /* Blue background */
-  border-radius: 5px; /* Rounded corners */
-  display: flex; /* Use flexbox */
-  flex-direction: column; /* Arrange child elements vertically */
-  justify-content: flex-end; /* Align child elements to the bottom */
+  width: calc(80% - 10px);
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  padding: 10px;
+  background-color: #003f83;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .grid-item img {
-  width: 100%; /* Image takes up 100% of its container */
-  height: auto; /* Automatically adjust height to maintain aspect ratio */
-  align-self: center; /* Center the image horizontally */
+  width: 100%;
+  height: auto;
+  align-self: center;
 }
 
 .grid-item a {
-  text-align: center; /* Center the link text */
-  color: #fff; /* White text color */
-  text-decoration: none; /* Remove underline */
-  margin-top: 10px; /* Add space between image and link */
+  color: #fff;
+  text-decoration: none;
+  margin-top: 10px;
 }
 
 .grid-item:hover {
@@ -168,29 +169,16 @@ body {
 
 /* Wrapper */
 #wrapper {
-  max-width: 800px; /* Adjust the maximum width as needed */
-  margin: 0 auto; /* Center the container horizontally */
+  max-width: 800px;
+  margin: 20px auto;
   padding: 20px;
-  margin-top: 20px;
   background-color: white;
-  border: 2px solid #007bff; /* Blue border */
+  border: 2px solid #007bff;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Vehicle detail */
-.vehicle-detail {
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-}
-
-.vehicle-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
 .vehicle-detail {
   display: flex;
   align-items: flex-start;
@@ -206,6 +194,9 @@ body {
 
 .vehicle-info {
   max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .vehicle-info h1 {
@@ -343,23 +334,6 @@ p a:hover {
   margin-bottom: 20px;
   font-size: 24px;
   color: #333;
-}
-
-.flash-messages {
-  margin-bottom: 20px;
-}
-
-.flash-messages .alert {
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid transparent;
-  border-radius: 4px;
-}
-
-.flash-messages .alert-danger {
-  color: #721c24;
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
 }
 
 .form-group {
