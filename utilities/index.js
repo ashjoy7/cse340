@@ -133,7 +133,7 @@ Util.buildClassificationList = async function (classification_id = null) {
     return classificationList;
   } catch (error) {
     console.error("Error fetching classifications for list:", error);
-    return ''; // Return an empty string or handle error as per your application's needs
+    return ''; // Return an empty string or handle error
   }
 };
 
