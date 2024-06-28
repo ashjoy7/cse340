@@ -3,6 +3,9 @@ const router = new express.Router();
 const invController = require("../controllers/invController");
 const { body } = require('express-validator')
 
+// Route to build home page
+router.get("/", baseController.buildHome); // Add this route for the home page
+
 // Route to build inventory by classification view
 router.get("/type/:classification_Id", invController.buildByClassificationId);
 
