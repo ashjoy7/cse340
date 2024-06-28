@@ -102,6 +102,25 @@ body {
   background-color: #004417;
 }
 
+/* Flash messages */
+.flash-messages {
+  margin-bottom: 20px;
+  font-size: 18px; /* Increased font size */
+}
+
+.flash-messages .alert {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.flash-messages .alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
 /* Two-column section */
 .two-column-section {
   display: flex;
@@ -279,6 +298,11 @@ body {
   color: #721c24;
   background-color: #f8d7da;
   border-color: #f5c6cb;
+}
+
+/* Increased font size for flash messages */
+.flash-messages .alert {
+  font-size: 18px; /* Increased font size */
 }
 
 .form-group {
