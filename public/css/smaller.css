@@ -13,7 +13,7 @@
   font-size: 5px;
   margin-bottom: 5px; /* Add margin bottom for spacing */
   max-height: 10px;
-  max-width: auto;
+  /* Removed invalid max-width */
 }
 
 .info-card h2 p {
@@ -52,7 +52,7 @@
     font-size: 5px;
     margin-bottom: 5px; /* Add margin bottom for spacing */
     max-height: 10px;
-    max-width: auto;
+    /* Removed invalid max-width */
   }
 
   .info-card h2 p {
