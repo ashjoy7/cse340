@@ -1,41 +1,43 @@
-const express = require("express");
-const router = new express.Router();
-const invController = require("../controllers/invController");
-const { body } = require('express-validator')
-const baseController = require("../controllers/baseController");
+const express = require('express');
+const router = express.Router();
+const invController = require('../controllers/invController'); // replace with the actual path to your file
+const utilities = require("../utilities/");
+const validate = require('../utilities/validation');
 
-// Route to build home page
-router.get("/", baseController.buildHome);
+router.get("/type/:classificationId", invController.buildByClassificationId);
+router.get("/detail/:inventoryId", invController.buildByInventoryId);
 
-// Route to build inventory by classification view
-router.get("/type/:classification_Id", invController.buildByClassificationId);
 
-// Route to get vehicle details by ID
-router.get("/detail/:inv_Id", invController.buildByInvId);
+router.get("/", invController.buildManager);
 
-// Route to build inventory management view
-router.get("/", invController.buildManagementView);
 
-// Route to deliver add-classification view
-router.get('/add-classification', invController.buildAddClassification);
+router.get("/add-classification", invController.buildAddClassification);
+router.get("/add-inventory", invController.buildAddInventory);
 
-// Route to process adding a new classification
-router.post('/add-classification', [
-    body('classification_name').trim().not().isEmpty().withMessage('Classification name is required.')
-], invController.processAddClassification);
 
-// Route to deliver add-inventory view
-router.get('/add-inventory', invController.buildAddInventory);
+router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON));
 
-// Route to process adding a new inventory item
-router.post('/add-inventory', [
-    body('inv_make').trim().not().isEmpty().withMessage('Make is required.'),
-    body('inv_model').trim().not().isEmpty().withMessage('Model is required.'),
-    body('inv_year').trim().isNumeric().withMessage('Year must be a valid number.'),
-    body('inv_price').trim().isNumeric().withMessage('Price must be a valid number.'),
-    body('classification_id').trim().not().isEmpty().withMessage('Classification is required.'),
-    body('inv_image_path').trim().not().isEmpty().withMessage('Image path is required.'),
-    body('inv_thumbnail_path').trim().not().isEmpty().withMessage('Thumbnail path is required.')
-], invController.processAddInventory);
+router.get("/edit/:inv_id", utilities.handleErrors(invController.editInventoryView));
 
+
+router.post(
+    '/add-inventory',
+    validate.invRules(),
+    validate.invCheck,
+    utilities.handleErrors(invController.addInventory)
+);
+
+router.post(
+    '/add-classification',
+    validate.regRules(),
+    validate.checkData,
+    utilities.handleErrors(invController.addClassification)
+);
+
+
+router.post(
+    '/edit-inventory',
+    validate.updateCheck,
+    utilities.handleErrors(invController.editInventory)
+);
 module.exports = router;

@@ -1,53 +1,35 @@
-<div class="add-inventory-container">
-    <h1>Add New Inventory Item</h1>
+<h1>Add new Vehicle</h1>
+<form action="/inv/add-inventory" method="post">
+    
+    <label for="classification_id">Classification:</label>
+    <%- classificationList %>
+    
+    <label for="inv_make">Make:</label>
+    <input type="text" id="inv_make" name="inv_make" pattern="[A-Za-z]+" required>
 
-    <% if (messages && messages.notice) { %>
-        <div class="flash-messages">
-            <% messages.notice.forEach(function(message) { %>
-                <div class="alert alert-success"><%= message %></div>
-            <% }) %>
-        </div>
-    <% } %>
+    <label for="inv_model">Model:</label>
+    <input type="text" id="inv_model" name="inv_model" pattern="[A-Za-z]+" required>
 
-    <% if (errors && errors.length > 0) { %>
-        <ul class="notice">
-            <% errors.forEach(function(error) { %>
-                <li><%= error.msg %></li>
-            <% }) %>
-        </ul>
-    <% } %>
+    <label for="inv_year">Year:</label>
+    <input type="number" id="inv_year" name="inv_year" min="1886" max="2099" required>
 
-    <form id="addInventoryForm" action="/inv/add-inventory" method="post">
-        <div class="form-group">
-            <label for="inv_make">Make:</label>
-            <input type="text" id="inv_make" name="inv_make" required value="<%= inv_make || '' %>">
-        </div>
-        <div class="form-group">
-            <label for="inv_model">Model:</label>
-            <input type="text" id="inv_model" name="inv_model" required value="<%= inv_model || '' %>">
-        </div>
-        <div class="form-group">
-            <label for="inv_year">Year:</label>
-            <input type="number" id="inv_year" name="inv_year" min="1900" max="2099" required value="<%= inv_year || '' %>">
-        </div>
-        <div class="form-group">
-            <label for="inv_price">Price:</label>
-            <input type="number" id="inv_price" name="inv_price" min="0" required value="<%= inv_price || '' %>">
-        </div>
-        <div class="form-group">
-            <label for="inv_classification">Classification:</label>
-            <%= classificationList %> <!-- This will be dynamically generated -->
-        </div>
-        <div class="form-group">
-            <label for="inv_image_path">Image Path:</label>
-            <input type="text" id="inv_image_path" name="inv_image_path" required value="<%= inv_image_path || '' %>">
-        </div>
-        <div class="form-group">
-            <label for="inv_thumbnail_path">Thumbnail Path:</label>
-            <input type="text" id="inv_thumbnail_path" name="inv_thumbnail_path" required value="<%= inv_thumbnail_path || '' %>">
-        </div>
-        <button type="submit" class="btn-primary">Add Inventory Item</button>
-    </form>
-</div>
+    <label for="inv_description">Description:</label>
+    <textarea id="inv_description" name="inv_description" required></textarea>
 
-<script src="/js/inventory-validation.js"></script>
+    <label for="inv_image">Image:</label>
+    <input type="text" id="inv_image" name="inv_image" value="/path/to/no-image-available.jpg" readonly>
+
+    <label for="inv_thumbnail">Thumbnail:</label>
+    <input type="text" id="inv_thumbnail" name="inv_thumbnail" value="/path/to/no-image-available.jpg" readonly>
+
+    <label for="inv_price">Price:</label>
+    <input type="number" id="inv_price" name="inv_price" min="0" required>
+
+    <label for="inv_miles">Miles:</label>
+    <input type="number" id="inv_miles" name="inv_miles" min="0" required>
+
+    <label for="inv_color">Color:</label>
+    <input type="text" id="inv_color" name="inv_color" pattern="[A-Za-z]+" required>
+
+    <button type="submit">Submit</button>
+</form>

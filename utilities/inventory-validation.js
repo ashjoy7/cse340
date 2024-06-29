@@ -1,90 +1,64 @@
-// public/js/inventory-validation.js
+const { body, validationResult } = require('express-validator');
+const validate = {};
 
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('addInventoryForm');
+/*  **********************************
+ *  Inventory Data Validation Rules
+ * ********************************* */
+validate.inventoryRules = () => {
+  return [
+    // Make is required
+    body('inv_make')
+      .trim()
+      .notEmpty()
+      .withMessage('Make is required.'),
 
-    form.addEventListener('submit', function(event) {
-        const make = document.getElementById('inv_make');
-        const model = document.getElementById('inv_model');
-        const year = document.getElementById('inv_year');
-        const price = document.getElementById('inv_price');
-        const classification = document.getElementById('classificationList');
-        const imagePath = document.getElementById('inv_image_path');
-        const thumbnailPath = document.getElementById('inv_thumbnail_path');
+    // Model is required
+    body('inv_model')
+      .trim()
+      .notEmpty()
+      .withMessage('Model is required.'),
 
-        let isValid = true;
+    // Year is required and must be a valid 4-digit number
+    body('inv_year')
+      .trim()
+      .isNumeric()
+      .isLength({ min: 4, max: 4 })
+      .withMessage('Year must be a valid 4-digit number.'),
 
-        // Clear previous error messages
-        clearErrorMessages();
+    // Price is required and must be a valid number
+    body('inv_price')
+      .trim()
+      .isNumeric()
+      .notEmpty()
+      .withMessage('Price must be a valid number.'),
 
-        // Validate make
-        if (!make.value.trim()) {
-            showError(make, 'Make is required.');
-            isValid = false;
-        }
+    // Classification is required
+    body('classification_id')
+      .trim()
+      .notEmpty()
+      .withMessage('Classification is required.'),
 
-        // Validate model
-        if (!model.value.trim()) {
-            showError(model, 'Model is required.');
-            isValid = false;
-        }
+    // Image path is required
+    body('inv_image_path')
+      .trim()
+      .notEmpty()
+      .withMessage('Image path is required.'),
 
-        // Validate year
-        if (!year.value.trim() || !isNumeric(year.value) || year.value.length !== 4) {
-            showError(year, 'Year must be a valid 4-digit number.');
-            isValid = false;
-        }
+    // Thumbnail path is required
+    body('inv_thumbnail_path')
+      .trim()
+      .notEmpty()
+      .withMessage('Thumbnail path is required.'),
+  ];
+};
 
-        // Validate price
-        if (!price.value.trim() || !isNumeric(price.value)) {
-            showError(price, 'Price must be a valid number.');
-            isValid = false;
-        }
+validate.checkInventoryData = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    // Handle validation errors
+    return res.status(422).json({ errors: errors.array() });
+  }
+  next(); // Proceed to the next middleware
+};
 
-        // Validate classification
-        if (!classification.value.trim()) {
-            showError(classification, 'Classification is required.');
-            isValid = false;
-        }
-
-        // Validate image path
-        if (!imagePath.value.trim()) {
-            showError(imagePath, 'Image path is required.');
-            isValid = false;
-        }
-
-        // Validate thumbnail path
-        if (!thumbnailPath.value.trim()) {
-            showError(thumbnailPath, 'Thumbnail path is required.');
-            isValid = false;
-        }
-
-        if (!isValid) {
-            event.preventDefault();
-        }
-    });
-
-    function isNumeric(value) {
-        return /^-?\d+$/.test(value);
-    }
-
-    function showError(input, message) {
-        const errorElement = document.createElement('div');
-        errorElement.className = 'error-message';
-        errorElement.innerText = message;
-        input.parentNode.appendChild(errorElement);
-        input.classList.add('error');
-    }
-
-    function clearErrorMessages() {
-        const errorMessages = document.querySelectorAll('.error-message');
-        errorMessages.forEach(function(errorMessage) {
-            errorMessage.remove();
-        });
-
-        const errorInputs = document.querySelectorAll('.error');
-        errorInputs.forEach(function(errorInput) {
-            errorInput.classList.remove('error');
-        });
-    }
-});
+module.exports = validate;

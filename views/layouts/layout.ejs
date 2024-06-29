@@ -7,6 +7,16 @@
         <%- include('../partials/navigation.ejs', { nav: nav }) %> <!-- Pass nav here -->
 
         <main>
+            <!-- Flash message display -->
+            <% if (messages && messages.length > 0) { %>
+                <% messages.forEach(message => { %>
+                    <div class="flash-message">
+                        <%= message %>
+                    </div>
+                <% }); %>
+            <% } %>
+
+            <!-- Page content -->
             <%- body %>
         </main>
 

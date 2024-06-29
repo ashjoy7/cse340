@@ -5,28 +5,26 @@ const Util = {};
 /* ************************
  * Constructs the nav HTML unordered list
  ************************** */
-Util.getNav = async function () {
-  try {
-    let data = await invModel.getClassifications();
-    console.log("Classifications fetched:", data); // Log fetched data
-    let navItems = [];
-    navItems.push({ link: "/", name: "Home" });
-
-    if (data && data.rows && data.rows.length > 0) {
-      data.rows.forEach((row) => {
-        navItems.push({
-          link: "/inv/type/" + row.classification_id,
-          name: row.classification_name,
-        });
-      });
-    }
-
-    return navItems;
-  } catch (error) {
-    console.error("Error fetching classifications:", error);
-    return [{ link: "/", name: "Home" }]; // Return at least the Home link in case of error
-  }
-};
+Util.getNav = async function (req, res, next) {
+  let data = await invModel.getClassifications()
+  console.log(data.rows)
+  let list = "<ul>"
+  list += '<li><a href="/" title="Home page">Home</a></li>'
+  data.rows.forEach((row) => {
+    list += "<li>"
+    list +=
+      '<a href="/inv/type/' +
+      row.classification_id +
+      '" title="See our inventory of ' +
+      row.classification_name +
+      ' vehicles">' +
+      row.classification_name +
+      "</a>"
+    list += "</li>"
+  })
+  list += "</ul>"
+  return list
+}
 
 /* ************************
  * Constructs the vehicle detail HTML
@@ -117,24 +115,23 @@ Util.handleErrors = function (fn) {
  * Build the classification list for form
  ************************** */
 Util.buildClassificationList = async function (classification_id = null) {
-  try {
-    let data = await invModel.getClassifications();
-    let classificationList =
-      '<select name="classification_id" id="classificationList" required>';
-    classificationList += "<option value=''>Choose a Classification</option>";
-
-    if (data && data.length > 0) {
-      data.forEach((row) => {
-        classificationList += `<option value="${row.classification_id}" ${classification_id == row.classification_id ? 'selected' : ''}>${row.classification_name}</option>`;
-      });
+  let data = await invModel.getClassifications()
+  let classificationList =
+    '<select name="classification_id" id="classificationList" required>'
+  classificationList += "<option value=''>Choose a Classification</option>"
+  data.rows.forEach((row) => {
+    classificationList += '<option value="' + row.classification_id + '"'
+    if (
+      classification_id != null &&
+      row.classification_id == classification_id
+    ) {
+      classificationList += " selected "
     }
+    classificationList += ">" + row.classification_name + "</option>"
+  })
+  classificationList += "</select>"
+  return classificationList
+}
 
-    classificationList += "</select>";
-    return classificationList;
-  } catch (error) {
-    console.error("Error fetching classifications for list:", error);
-    return ''; // Return an empty string or handle error
-  }
-};
 
 module.exports = Util;

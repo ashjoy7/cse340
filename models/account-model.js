@@ -31,11 +31,11 @@ async function findByEmail(account_email){
  * ********************* */
 async function checkExistingEmail(account_email){
   try {
-    const sql = "SELECT * FROM account WHERE account_email = $1";
-    const email = await pool.query(sql, [account_email]);
-    return email.rows.length; // Return the number of rows found
+    const sql = "SELECT * FROM account WHERE account_email = $1"
+    const email = await pool.query(sql, [account_email])
+    return email.rowCount
   } catch (error) {
-    throw error; // Throw the error to be caught by the caller
+    return error.message
   }
 }
 
