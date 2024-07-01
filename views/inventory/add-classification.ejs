@@ -20,11 +20,9 @@
     <form id="addClassificationForm" action="/inv/add-classification" method="post">
         <div class="form-group">
             <label for="classification_name">Classification Name:</label>
-            <input type="text" id="classification_name" name="classification_name" required>
+            <input type="text" id="classification_name" name="classification_name" required value="<%= classification_name || '' %>">
             <span id="classificationNameError" class="error-message"></span>
         </div>
         <button type="submit" class="btn-primary">Add Classification</button>
     </form>
 </div>
-
-<script src="/js/classification-validation.js"></script>

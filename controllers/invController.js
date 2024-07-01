@@ -65,78 +65,127 @@ invCont.buildManager = async function (req, res, next) {
 }
 
 invCont.buildAddClassification = async function (req, res, next) {
+    try {
+      let nav = await utilities.getNav();
+      const classification_name = req.body.classification_name || ''; // Ensure default value if not provided
   
-  let nav = await utilities.getNav()
+      res.render("./inventory/add-classification", {
+        title: "Add Classification",
+        nav,
+        classification_name, // Pass classification_name to the template
+        errors: null,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 
-  res.render("./inventory/add-classification", {
-      title: "addClassification",
-      nav,
-      errors: null,
-   })
-
-}
-
-invCont.addClassification = async function (req, res) {
-  let nav = await utilities.getNav()
-  const { classification_name } = req.body
-  console.log("classification_name: ", classification_name)
-  console.log("req.body: ", req.body)
-  const addResult = await invModel.addClassification(classification_name)
-  if (addResult) {
-    req.flash("notice", "Classification added successfully.")
-    res.redirect("/inv")
-  } else {
-    req.flash("notice", "Sorry, the classification was not added.")
-    res.status(501).render("./inventory/add-classification", {
-      title: "addClassification",
-      nav,
-      errors: null,
-    })
-  }
-}
-
-invCont.buildAddInventory = async function (req, res, next) {
+  invCont.addClassification = async function (req, res) {
+    try {
+      let nav = await utilities.getNav();
+      const { classification_name } = req.body;
   
-  let nav = await utilities.getNav()
-  let classificationList = await utilities.buildClassificationList()
+      const addResult = await invModel.addClassification(classification_name);
+      if (addResult) {
+        req.flash("notice", "Classification added successfully.");
+        res.redirect("/inv");
+      } else {
+        req.flash("notice", "Sorry, the classification was not added.");
+        res.status(501).render("./inventory/add-classification", {
+          title: "Add Classification",
+          nav,
+          classification_name, // Pass classification_name to the template
+          errors: null,
+        });
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
+  
 
-  req.flash("notice", "This is a message.")
-  res.render("./inventory/add-inventory", {
-      title: "addInventory",
-      nav,
-      classificationList,
-   })
-  }
+  invCont.buildAddInventory = async function (req, res, next) {
+    try {
+      let nav = await utilities.getNav();
+      let classificationList = await utilities.buildClassificationList();
+  
+      res.render("./inventory/add-inventory", {
+        title: "Add Inventory",
+        nav,
+        classificationList,
+        errors: null,
+        inv_make: req.body.inv_make || '', // Ensure default values if not provided
+        inv_model: req.body.inv_model || '',
+        inv_year: req.body.inv_year || '',
+        inv_description: req.body.inv_description || '',
+        inv_image: req.body.inv_image || '',
+        inv_thumbnail: req.body.inv_thumbnail || '',
+        inv_price: req.body.inv_price || '',
+        inv_miles: req.body.inv_miles || '',
+        inv_color: req.body.inv_color || '',
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+  
 
   invCont.addInventory = async function (req, res) {
-    let nav = await utilities.getNav()
-    const {
-      inv_make,
-      inv_model,
-      inv_year,
-      inv_description,
-      inv_image,
-      inv_thumbnail,
-      inv_price,
-      inv_miles,
-      inv_color,
-      classification_id
-    } = req.body
-    console.log("req.body: ", req.body)
-    const addResult = await invModel.addInventory(inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id)
-    let classificationList = await utilities.buildClassificationList()
-    if (addResult) {
-      req.flash("notice", "Inventory added successfully.")
-      res.redirect("/inv")
-    } else {
-      req.flash("notice", "Sorry, the inventory was not added.")
-      res.status(501).render("./inventory/add-inventory", {
-        title: "addInventory",
-        nav,
-        classificationList
-      })
+    try {
+      let nav = await utilities.getNav();
+      const {
+        inv_make,
+        inv_model,
+        inv_year,
+        inv_description,
+        inv_image,
+        inv_thumbnail,
+        inv_price,
+        inv_miles,
+        inv_color,
+        classification_id
+      } = req.body;
+  
+      const addResult = await invModel.addInventory(
+        inv_make,
+        inv_model,
+        inv_year,
+        inv_description,
+        inv_image,
+        inv_thumbnail,
+        inv_price,
+        inv_miles,
+        inv_color,
+        classification_id
+      );
+  
+      let classificationList = await utilities.buildClassificationList();
+      if (addResult) {
+        req.flash("notice", "Inventory added successfully.");
+        res.redirect("/inv");
+      } else {
+        req.flash("notice", "Sorry, the inventory was not added.");
+        res.status(501).render("./inventory/add-inventory", {
+          title: "Add Inventory",
+          nav,
+          classificationList,
+          errors: null,
+          inv_make,
+          inv_model,
+          inv_year,
+          inv_description,
+          inv_image,
+          inv_thumbnail,
+          inv_price,
+          inv_miles,
+          inv_color,
+        });
+      }
+    } catch (error) {
+      next(error);
     }
-  }
+  };
+  
   
   /* ***************************
  *  Return Inventory by Classification As JSON
