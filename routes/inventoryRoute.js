@@ -14,11 +14,18 @@ router.get("/", invController.buildManager);
 router.get("/add-classification", invController.buildAddClassification);
 router.get("/add-inventory", invController.buildAddInventory);
 
+router.get("/delete-confirm/:inv_id", utilities.handleErrors(invController.buildDeleteInventory));
 
 router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON));
 
-router.get("/edit/:inv_id", utilities.handleErrors(invController.editInventoryView));
+router.get("/edit-inventory/:inv_id", utilities.handleErrors(invController.buildEditInventory));
 
+router.post(
+    '/add-classification',
+    validate.regRules(),
+    validate.checkData,
+    utilities.handleErrors(invController.addClassification)
+);
 
 router.post(
     '/add-inventory',
@@ -28,16 +35,14 @@ router.post(
 );
 
 router.post(
-    '/add-classification',
-    validate.regRules(),
-    validate.checkData,
-    utilities.handleErrors(invController.addClassification)
-);
-
-
-router.post(
     '/edit-inventory',
     validate.updateCheck,
-    utilities.handleErrors(invController.editInventory)
+    utilities.handleErrors(invController.updateInventory)
 );
+
+router.post(
+    '/inv/delete-confirm',
+    utilities.handleErrors(invController.deleteConfirm)
+);
+
 module.exports = router;

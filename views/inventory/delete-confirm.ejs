@@ -1,0 +1,44 @@
+<div class="add-inventory-container">
+    <h1>Delete Vehicle</h1>
+    <h1><%- inv_make %> <%- inv_model %></h1>
+
+    <% if (messages && messages.notice) { %>
+        <div class="flash-messages">
+            <% messages.notice.forEach(function(message) { %>
+                <div class="alert alert-success"><%= message %></div>
+            <% }) %>
+        </div>
+    <% } %>
+
+    <% if (errors && errors.length > 0) { %>
+        <ul class="notice">
+            <% errors.forEach(function(error) { %>
+                <li><%= error.msg %></li>
+            <% }) %>
+        </ul>
+    <% } %>
+
+    <form id="deleteInventoryForm" action="/inv/delete-confirm/:inv_id" method="post">
+        <div class="form-group">
+            <label for="inv_make">Make:</label>
+            <input type="text" id="inv_make" name="inv_make" pattern="[A-Za-z]+" value="<%= inv_make %>" readonly>
+        </div>
+        <div class="form-group">
+            <label for="inv_model">Model:</label>
+            <input type="text" id="inv_model" name="inv_model" pattern="[A-Za-z]+" value="<%= inv_model %>" readonly>
+        </div>
+        <div class="form-group">
+            <label for="inv_year">Year:</label>
+            <input type="number" id="inv_year" name="inv_year" min="1886" max="2099" value="<%= inv_year %>" readonly>
+        </div>
+        <div class="form-group">
+            <label for="inv_price">Price:</label>
+            <input type="number" id="inv_price" name="inv_price" min="0" value="<%= inv_price %>" readonly>
+        </div>
+        <input type="hidden" id="inv_id" name="inv_id" value="<%= locals.inv_id %>">
+
+        <p>Confirm Deletion - The delete is permanent.</p>
+
+        <button type="submit" name="submit">Delete</button>
+    </form>
+</div>
