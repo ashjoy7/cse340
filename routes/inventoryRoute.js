@@ -36,6 +36,7 @@ router.post(
 
 router.post(
     '/edit-inventory',
+    validate.invRules(),
     validate.updateCheck,
     utilities.handleErrors(invController.updateInventory)
 );
