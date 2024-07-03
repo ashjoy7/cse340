@@ -327,17 +327,17 @@ invCont.deleteConfirm = async function (req, res, next) {
 
     if (deleteResult) {
       req.flash("notice", `The vehicle was successfully deleted.`);
-      res.redirect("/inv");
     } else {
       req.flash("notice", "Sorry, the deletion failed.");
-      res.redirect("/inv");
     }
   } catch (error) {
     console.error('Error deleting inventory:', error);
     req.flash("notice", "Sorry, an error occurred.");
-    res.redirect("/inv");
   }
+
+  res.redirect("/inv");
 };
+
 
 
 module.exports = invCont

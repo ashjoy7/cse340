@@ -94,7 +94,11 @@ async function deleteInventory(inv_id) {
   try {
     const query = 'DELETE FROM public.inventory WHERE inv_id = $1 RETURNING *';
     const data = await pool.query(query, [inv_id]);
-    return data.rows[0]; 
+    if (data.rows.length > 0) {
+      return true; // Deletion was successful
+    } else {
+      return false; // No rows returned means deletion was successful
+    }
   } catch (error) {
     console.error('Delete Inventory Error:', error);
     throw error;
