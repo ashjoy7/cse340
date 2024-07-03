@@ -109,7 +109,7 @@ invCont.buildAddClassification = async function (req, res, next) {
       let nav = await utilities.getNav();
       let classificationList = await utilities.buildClassificationList();
   
-      res.render("./inv/add-inventory", {
+      res.render("./inventory/add-inventory", {
         title: "Add Inventory",
         nav,
         classificationList,
@@ -290,79 +290,54 @@ invCont.updateInventory = async function (req, res, next) {
 }
 
 invCont.buildDeleteInventory = async function (req, res, next) {
-  let inv_id = parseInt(req.params.inv_id)
-  const title = 'Delete '
-  const nav = await utilities.getNav()
-  const itemData = await invModel.getInventoryByInventoryId(inv_id)
-  const classifications = await utilities.buildClassificationList()
-  const itemName = `${itemData[0].inv_make} ${itemData[0].inv_model}`
-  res.render("./inventory/delete-confirm", {
-    title: title + itemName,
-    nav,
-    classifications,
-    errors: null,
-    inv_id: itemData[0].inv_id,
-    inv_make: itemData[0].inv_make,
-    inv_model: itemData[0].inv_model,
-    inv_year: itemData[0].inv_year,
-    inv_price: itemData[0].inv_price,
-  })
-}
+  let inv_id = parseInt(req.params.inv_id);
+  const title = 'Delete ';
+  const nav = await utilities.getNav();
+
+  try {
+    const itemData = await invModel.getInventoryByInventoryId(inv_id);
+    const classifications = await utilities.buildClassificationList(itemData.classification_id);
+    const itemName = `${itemData.inv_make} ${itemData.inv_model}`;
+
+    res.render("./inventory/delete-confirm", {
+      title: title + itemName,
+      nav,
+      classifications,
+      errors: null,
+      inv_id: itemData.inv_id,
+      inv_make: itemData.inv_make,
+      inv_model: itemData.inv_model,
+      inv_year: itemData.inv_year,
+      inv_price: itemData.inv_price,
+      // Add other fields as needed for rendering confirmation
+    });
+  } catch (error) {
+    console.error('Error building delete confirmation:', error);
+    req.flash("notice", "Sorry, an error occurred.");
+    res.redirect("/inv");
+  }
+};
 
 invCont.deleteConfirm = async function (req, res, next) {
-  let nav = await utilities.getNav()
-  const {
-    inv_id,
-    inv_make,
-    inv_model,
-    inv_description,
-    inv_image,
-    inv_thumbnail,
-    inv_price,
-    inv_year,
-    inv_miles,
-    inv_color,
-    classification_id,
-  } = req.body
-  const deleteResult = await invModel.deleteInventory(
-    inv_id,  
-    inv_make,
-    inv_model,
-    inv_description,
-    inv_image,
-    inv_thumbnail,
-    inv_price,
-    inv_year,
-    inv_miles,
-    inv_color,
-    classification_id
-  )
+  let nav = await utilities.getNav();
+  const { inv_id } = req.body;
 
-  if (deleteResult) {
-    req.flash("notice", `The vehicle was successfully deleted.`)
-    res.redirect("/account/")
-  } else {
-    const classificationSelect = await utilities.buildClassificationGrid(classification_id)
-    const itemName = `${inv_make} ${inv_model}`
-    req.flash("notice", "Sorry, the insert failed.")
-    res.status(501).render("inventory/delete-confirm", {
-    title: "Site Management: Delete " + itemName,
-    nav,
-    classificationSelect: classificationSelect,
-    errors: null,
-    inv_id,
-    inv_make,
-    inv_model,
-    inv_year,
-    inv_description,
-    inv_image,
-    inv_thumbnail,
-    inv_price,
-    inv_miles,
-    inv_color,
-    classification_id
-    })
+  try {
+    const deleteResult = await invModel.deleteInventory(inv_id);
+
+    if (deleteResult) {
+      req.flash("notice", `The vehicle was successfully deleted.`);
+      res.redirect("/inv");
+    } else {
+      req.flash("notice", "Sorry, the deletion failed.");
+      res.redirect("/inv");
+    }
+  } catch (error) {
+    console.error('Error deleting inventory:', error);
+    req.flash("notice", "Sorry, an error occurred.");
+    res.redirect("/inv");
   }
-}
+};
+
 
 module.exports = invCont

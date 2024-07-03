@@ -42,7 +42,7 @@ router.post(
 );
 
 router.post(
-    '/inv/delete-confirm',
+    '/delete-confirm',
     utilities.handleErrors(invController.deleteConfirm)
 );
 
