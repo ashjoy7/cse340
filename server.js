@@ -3,12 +3,13 @@ const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
 const flash = require('connect-flash');
-const dotenv = require('dotenv').config();
+const env = require('dotenv').config();
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser'); // Added for cookie parsing
 const pool = require('./database/');
 const app = express();
 const baseController = require('./controllers/baseController');
+const static = require("./routes/static")
 const inventoryRoute = require('./routes/inventoryRoute');
 const accountRoute = require('./routes/accountRoute');
 const utilities = require('./utilities/'); // Added for utility functions
@@ -45,7 +46,7 @@ app.use(expressLayouts);
 app.set('layout', './layouts/layout');
 
 // Static files
-app.use(express.static('public'));
+app.use(static);
 
 // Serve CSS files from the public/css folder
 const directoryPath = __dirname;
