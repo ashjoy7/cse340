@@ -1,0 +1,50 @@
+<div>
+  <% if (title) { %>
+    <h1><%= title %></h1>
+  <% } else { %>
+    <% res.redirect('/'); %>
+  <% } %>
+
+  <% if (messages && messages.notice) { %>
+    <div class="flash-messages">
+      <% messages.notice.forEach(function(message) { %>
+        <div class="alert alert-success"><%= message %></div>
+      <% }) %>
+    </div>
+  <% } %>
+  
+  <div class="login-container">
+    <h2>You are now logged in.</h2>
+    <form id="updateAccount" method="post" action="/account/update">
+      <div class="form-group">
+        <label for="firstname">First Name*</label>
+        <input type="text" name="account_firstname" id="firstname" size="10" required value="<%= locals.account_firstname %>">
+      </div>
+      <div class="form-group">
+        <label for="lastname">Last Name*</label>
+        <input type="text" name="account_lastname" id="lastname" required value="<%= locals.account_lastname %>">
+      </div>
+      <div class="form-group">
+        <label for="email">Email*</label>
+        <input type="email" name="account_email" id="email" placeholder="someone@gmail.com" required value="<%= locals.account_email %>">
+        <input type="hidden" name="account_id" <% if(locals.account_id) { %> value="<%= locals.account_id %>" <% } %>>
+      </div>
+      
+      <input type="submit" value="Update Account" class="submitBtn">
+    </form>
+
+    <form id="updatePassword" method="post" action="/account/update/password">
+      <div class="form-group">
+        <label for="password">Password*</label>
+        <input type="password" name="account_password" id="pword" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^-a-zA-Z0-9])(?!.*\s).{12,}$">
+        <div><i>Password must be a minimum of 12 characters and include 1 capital letter, 1 number, and 1 special character.</i></div>
+        <span id="pswdBtn">Show Password</span>
+        <input type="hidden" name="account_id" <% if(locals.account_id) { %> value="<%= locals.account_id %>" <% } %>>
+      </div>
+      
+      <input type="submit" value="Reset Password" class="submitBtn">
+    </form>
+  </div>
+</div>
+
+<script src="/js/script.js"></script>

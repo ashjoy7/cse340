@@ -175,27 +175,33 @@ async function buildAccountupdate(req, res, next) {
   }
 }
 
-/*********************************
- *   Process Account Update
- *********************************/
-
 async function updateAccount(req, res, next) {
   try {
     let nav = await utilities.getNav();
     const { account_firstname, account_lastname, account_email, account_id } = req.body;
-
-    // Update account details in the database
     const updateResult = await accountModel.updateAccount({
       account_firstname,
       account_lastname,
       account_email,
       account_id,
     });
+      // Rebuild the JWT with new data delete 
+      updateResult.account_password; 
+      const accessToken = jwt.sign(updateResult, process.env.ACCESS_TOKEN_SECRET, 
+        { expiresIn: 3600 * 1000, }); 
+        res.cookie("jwt", accessToken, 
+        { httpOnly: true, maxAge: 3600 * 1000 }
+        );
+    if (updateResult) {
+      const accountName = `${updateResult.account_firstname} ${updateResult.account_lastname}`;
+      req.flash("notice", `${accountName} was successfully updated.`);
+      res.redirect("/account/update");
 
-    if (!updateResult) {
+    } else {
+      const accountName = `${account_firstname} ${account_lastname}`;
       req.flash("notice", "Sorry, the update failed.");
-      return res.status(501).render("account/update", {
-        title: `Update ${account_firstname} ${account_lastname}`,
+      res.status(501).render("/account/update", {  // Assuming "updateAccount" is the correct path
+        title: `Update ${accountName}`,
         nav,
         errors: null,
         account_firstname,
@@ -204,59 +210,47 @@ async function updateAccount(req, res, next) {
         account_id,
       });
     }
-
-    delete updateResult.account_password; // Remove sensitive data from response
-
-    // Generate new JWT token after update
-    const accessToken = jwt.sign(
-      updateResult,
-      process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: 3600 * 1000 } // Token expires in 1 hour
-    );
-
-    // Set JWT token in cookie
-    res.cookie("jwt", accessToken, {
-      httpOnly: true,
-      maxAge: 3600 * 1000, // 1 hour
-    });
-
-    // Redirect to account update page
-    res.redirect("/account/update");
   } catch (error) {
-    next(error);
+    next(error); // Pass the error to the error handling middleware
   }
 }
 
-/*********************************
- *   Process Password Update
- *********************************/
-
 async function updatePassword(req, res, next) {
+  let nav = await utilities.getNav();
+  const { account_password, account_id } = req.body;
+  let hashedPassword;
+  
   try {
-    let nav = await utilities.getNav();
-    const { account_password, account_id } = req.body;
 
-    // Hash the new password
-    const hashedPassword = await bcrypt.hash(account_password, 10);
-
-    // Update password in the database
-    await accountModel.updatePassword(hashedPassword, account_id);
-
-    // Flash success message
-    const accountName = `${res.locals.accountData.account_firstname} ${res.locals.accountData.account_lastname}`;
-    req.flash("notice", `${accountName} successfully updated password.`);
-
-    // Redirect to account update page
-    res.redirect("/account/update");
+    // Hashing the password asynchronously
+    hashedPassword = await bcrypt.hash(account_password, 10);
   } catch (error) {
-    req.flash("notice", "Sorry, the password update failed.");
-    res.status(501).render("account/update", {
-      title: `Update ${res.locals.accountData.account_firstname} ${res.locals.accountData.account_lastname}`,
+    req.flash("notice", 'Sorry, there was an error processing the registration.');
+    return res.status(500).render("account/update", {
+      title: "Account Update",
       nav,
       errors: null,
-      account_id: req.body.account_id,
     });
   }
+
+  try {
+    await accountModel.updatePassword(
+      hashedPassword,
+      account_id,
+    );
+  } catch (error) {
+    const accountName = `${res.locals.accountData.account_firstname} ${res.locals.accountData.account_lastname}`;
+    req.flash("notice", "Sorry, the password update failed.");
+    return res.status(501).render("/account/update", {
+      title: "Update " + accountName,
+      nav,
+      errors: null,
+      account_id,
+    });
+  }
+  const accountName = `${res.locals.accountData.account_firstname} ${res.locals.accountData.account_lastname}`;
+  req.flash("notice", `${accountName} successfully updated password.`);
+  res.redirect("/account/update");
 }
 
 module.exports = {
@@ -265,7 +259,7 @@ module.exports = {
   registerAccount,
   processLogin,
   accountManagement,
-  buildAccountupdate,
   updateAccount,
   updatePassword,
+  buildAccountupdate,
 };
