@@ -50,7 +50,7 @@ app.use(function(req, res, next) {
 // View Engine and Layouts
 app.set('view engine', 'ejs');
 app.use(expressLayouts);
-app.set('views', path.join(__dirname, 'views')); // Correct usage of path module
+app.set('layout', './layouts/layout');
 
 // Static files
 app.use(static);
