@@ -1,3 +1,4 @@
+// Require Statements
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
@@ -9,12 +10,14 @@ const inventoryRoute = require('./routes/inventoryRoute');
 const accountRoute = require('./routes/accountRoute');
 const pool = require('./database/');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser'); // Added for cookie parsing
+const utilities = require('./utilities/'); // Added for utility functions
 
 // Middleware for session and flash messages
 app.use(session({
   store: new (require('connect-pg-simple')(session))({
-      createTableIfMissing: true,
-      pool,
+    createTableIfMissing: true,
+    pool,
   }),
   secret: process.env.SESSION_SECRET,
   resave: true,
@@ -24,13 +27,13 @@ app.use(session({
 
 app.use(flash());
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Middleware to make flash messages available in all views
 app.use(function(req, res, next) {
-res.locals.messages = req.flash();
-next();
+  res.locals.messages = req.flash();
+  next();
 });
 
 // View Engine and Layouts
@@ -68,11 +71,11 @@ app.use('/account', accountRoute);
 
 // Handle 404 errors
 app.use(function(req, res, next) {
-res.status(404).send('404: Page not Found');
+  res.status(404).send('404: Page not Found');
 });
 
 // Handle server errors
 app.use(function(err, req, res, next) {
-console.error(err);
-res.status(500).send('500: Internal Server Error');
+  console.error(err);
+  res.status(500).send('500: Internal Server Error');
 });
