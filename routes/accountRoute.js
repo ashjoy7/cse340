@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const accountController = require('../controllers/accountController');
 const utilities = require('../utilities');
-const regValidate = require('../utilities/account-validation'); // Add this line
+const regValidate = require('../utilities/account-validation');
 
 // Route to handle "My Account" link click
 router.get('/login', utilities.handleErrors(accountController.buildLogin));

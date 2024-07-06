@@ -16,7 +16,7 @@ async function buildLogin(req, res, next) {
       nav,
       messages: req.flash('notice'),
       errors: [],
-      account_email: '' // Initialize account_email as an empty string
+      account_email: ''
     });
   } catch (error) {
     next(error);
@@ -39,15 +39,15 @@ async function processLogin(req, res, next) {
         title: 'Login',
         nav: await utilities.getNav(),
         messages: req.flash('notice'),
-        errors: [], // Add any specific errors here if needed
-        account_email // Keep the entered email in case of error
+        errors: [], 
+        account_email
       });
     }
 
     // Set session or token for authenticated user
     req.session.user = user;
     req.flash('notice', 'Successfully logged in!');
-    res.redirect('/');
+    res.redirect('/login');
   } catch (error) {
     next(error);
   }
@@ -63,14 +63,26 @@ async function buildRegister(req, res, next) {
       title: 'Register',
       nav,
       messages: req.flash('notice'),
-      errors: [], // Ensure errors is initialized as empty array if not needed
-      account_firstname: '', // Initialize account_firstname as empty string or fetch from req.body
-      account_lastname: '', // Initialize account_lastname as empty string or fetch from req.body
-      account_email: '' // Initialize account_email as empty string or fetch from req.body
+      errors: [], 
+      account_firstname: '', 
+      account_lastname: '', 
+      account_email: '' 
     });
   } catch (error) {
     next(error);
   }
+}
+
+/* ****************************************
+*  Deliver Account Management or Admin view
+* *************************************** */
+async function accountManagement(req, res, next) {
+  let nav = await utilities.getNav()
+  res.render("account/admin-view", {
+    title:"Account Management",
+    nav,
+    errors: null,
+  })
 }
 
 /* ****************************************

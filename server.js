@@ -12,14 +12,14 @@ const bodyParser = require('body-parser');
 
 // Middleware for session and flash messages
 app.use(session({
-store: new (require('connect-pg-simple')(session))({
-createTableIfMissing: true,
-pool,
-}),
-secret: process.env.SESSION_SECRET,
-resave: true,
-saveUninitialized: true,
-name: 'sessionId',
+  store: new (require('connect-pg-simple')(session))({
+      createTableIfMissing: true,
+      pool,
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  name: 'sessionId',
 }));
 
 app.use(flash());
