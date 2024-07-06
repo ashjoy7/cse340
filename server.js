@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser'); // Added for cookie parsing
 const pool = require('./database/');
 const app = express();
 const baseController = require('./controllers/baseController');
-const static = require("./routes/static")
+const static = require("./routes/static");
 const inventoryRoute = require('./routes/inventoryRoute');
 const accountRoute = require('./routes/accountRoute');
 const utilities = require('./utilities/'); // Added for utility functions
@@ -26,13 +26,19 @@ app.use(session({
   name: 'sessionId',
 }));
 
-app.use(flash());
-
 // Middleware for parsing cookies
 app.use(cookieParser());
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// Parse application/json
+app.use(express.json());
+
+// Parse application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: true }));
+
+// Middleware to apply JWT token
+app.use(utilities.checkJWTToken);
+
+app.use(flash());
 
 // Middleware to make flash messages available in all views
 app.use(function(req, res, next) {
@@ -55,15 +61,6 @@ app.use('/css', express.static(directoryPath + '/public/css'));
 // Serve images from the public/images folder
 app.use('/public/images', express.static(directoryPath + '/public/images'));
 
-// Local Server Information
-const port = process.env.PORT || 3000;
-const host = process.env.HOST || 'localhost';
-
-// Log statement to confirm server operation
-app.listen(port, () => {
-  console.log(`App is listening on http://${host}:${port}`);
-});
-
 // Index route
 app.get('/', baseController.buildHome);
 
@@ -78,8 +75,27 @@ app.use(function(req, res, next) {
   res.status(404).send('404: Page not Found');
 });
 
-// Handle server errors
-app.use(function(err, req, res, next) {
-  console.error(err);
-  res.status(500).send('500: Internal Server Error');
+// Error handling middleware
+app.use(async (err, req, res, next) => {
+  let nav = await utilities.getNav();
+  console.error(`Error at: "${req.originalUrl}": ${err.message}`);
+  if (err.status == 404 || err.status == 500) {
+    message = err.message;
+  } else {
+    message = 'Whoops, something went wrong...';
+  }
+  res.render('errors/error', { 
+    title: err.status || 'Server Error', 
+    message, 
+    nav 
+  });
+});
+
+// Local Server Information
+const port = process.env.PORT || 3000;
+const host = process.env.HOST || 'localhost';
+
+// Log statement to confirm server operation
+app.listen(port, () => {
+  console.log(`App is listening on http://${host}:${port}`);
 });

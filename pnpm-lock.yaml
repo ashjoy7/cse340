@@ -38,6 +38,9 @@ importers:
       express-flash:
         specifier: ^0.0.2
         version: 0.0.2
+      express-messages:
+        specifier: ^1.0.1
+        version: 1.0.1
       express-session:
         specifier: ^1.18.0
         version: 1.18.0
@@ -238,6 +241,10 @@ packages:
   express-flash@0.0.2:
     resolution: {integrity: sha512-QVUR0ZZRCaa8+iPHoUQaQJrQWcQuK/Q+19M7IUIdIEtvwhrA/ifHT7y1CVJI41YfGiOQnbGtn3uvd2vOdgu58A==}
     engines: {node: '>= 0.8.0'}
+
+  express-messages@1.0.1:
+    resolution: {integrity: sha512-twwOvH1K0W7pPO/bz/Lq85GULnnZPQSPX3eLr7VRJyhQW9a+2vj9QI28r/AQhMu6bnNZkpxB/QflsDQi3hI7lQ==}
+    engines: {node: '>= 0.10.0'}
 
   express-session@1.18.0:
     resolution: {integrity: sha512-m93QLWr0ju+rOwApSsyso838LQwgfs44QtOP/WBiwtAgPIo/SAh1a5c6nn2BR6mFNZehTpqKDESzP+fRHVbxwQ==}
@@ -834,6 +841,8 @@ snapshots:
   express-flash@0.0.2:
     dependencies:
       connect-flash: 0.1.1
+
+  express-messages@1.0.1: {}
 
   express-session@1.18.0:
     dependencies:

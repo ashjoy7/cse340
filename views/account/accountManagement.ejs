@@ -1,0 +1,16 @@
+<% if (title) { %>
+  <h1><%= title %></h1>
+  <% } else {
+    res.redirect('/')
+  } %>
+<h2>Thanks for logging in!</h2>
+<p>Account Options</p>
+
+<a Class="link" href="./update">Update account</a>
+
+<%- additional %>
+
+
+
+<script src="/js/script.js"></script>
+</div>

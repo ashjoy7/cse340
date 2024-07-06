@@ -1,43 +1,53 @@
-<div class="login-container">
-    <% if (title) { %>
-        <h1><%= title %></h1>
-        <% } else {
-            res.redirect('/')
-        } %>
+<div>
+  <% if (title) { %>
+    <h1><%= title %></h1>
+  <% } else { %>
+    <% res.redirect('/'); %>
+  <% } %>
 
-    <% if (messages && messages.notice) { %>
-        <div class="flash-messages">
-            <% messages.notice.forEach(function(message) { %>
-                <div class="alert alert-danger"><%= message %></div>
-            <% }) %>
-        </div>
-    <% } %>
 
-    <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
-        <ul class="notice">
-            <% errors.forEach(function(error) { %>
-                <li><%= error.msg %></li>
-            <% }) %>
-        </ul>
-    <% } %>
-
-    <form id="loginForm" action="/account/login" method="post">
-        <div class="form-group">
-            <label for="account_email">Email:</label>
-            <input type="email" id="account_email" name="account_email" required value="<%= account_email || '' %>">
-            <span id="emailError" class="error-message"></span>
-        </div>
-        <div class="form-group">
-            <label for="account_password">Password:</label>
-            <input type="password" id="account_password" name="account_password" required>
-            <span id="passwordError" class="error-message"></span>
-        </div>
-        <button type="submit" class="btn-primary">Login</button>
-    </form>
-
-    <div class="register-link">
-        <p>Not registered yet? <a href="/account/register">Register here</a></p>
+  <% if (messages && messages.notice) { %>
+    <div class="flash-messages">
+      <% messages.notice.forEach(function(message) { %>
+        <div class="alert alert-success"><%= message %></div>
+      <% }) %>
     </div>
+  <% } %>
+
+<div class="login-container">
+  <form id="loginForm" action="/account/login" method="post">
+      <div class="form-group">
+        <label for="account_email" class="top">Email*</label>
+        <input
+          id="account_email"
+          type="email"
+          name="account_email"
+          placeholder="someone@gmail.com"
+          required
+        />
+      </div>
+      
+      <div class="form-group">
+        <label for="account_password" class="top">Password*</label>
+        <input
+          id="account_password"
+          type="password"
+          name="account_password"
+          placeholder="*********"
+          required
+          pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
+        />
+      </div>
+      
+    </fieldset>
+    
+    <button type="submit" class="submitBtn">Login</button>
+  </form>
+
+  <div class="register-link">
+    <p>Don't have an account? <a href="/account/register">Register now!</a></p>
+  </div>
 </div>
+
 
 

@@ -58,40 +58,29 @@ async function getAccountById(account_id) {
 /* *****************************
 * Update account information
 * ***************************** */
-async function updateInformation (
-account_firstname,
-account_lastname,
-account_email,
-account_id,
-) {
-try {
-  const sql =
-    "UPDATE account SET account_firstname = $1, account_lastname = $2, account_email = $3 WHERE account_id = $4 RETURNING *";
-  const result = await pool.query(sql, [
-    account_firstname,
-    account_lastname,
-    account_email,
-    account_id,
-  ]);
-  return result.rows[0];
-} catch (error) {
-  console.log("Account wasn't updated.")
-  return error.message;
-}
+async function updateAccount({ account_firstname, account_lastname, account_email, account_id, }) { 
+  try { 
+  const sql = "UPDATE account SET account_firstname = $1, account_lastname = $2, account_email = $3 WHERE account_id = $4 RETURNING *"; 
+  const result = await pool.query(sql, [ account_firstname, account_lastname, account_email, account_id, ]); 
+  return result.rows[0]; 
+} catch (error) { 
+  return error.message; 
+} 
 }
 
 /* *****************************
-* Update password information
-* ***************************** */
-async function updatePassword(account_id, account_password) {
-  try {
-    const sql =
-      "UPDATE account SET account_password = $1 WHERE account_id = $2 RETURNING *";
-    const data = await pool.query(sql, [account_password, account_id]);
-    return data.rows[0];
-  } catch (error) {
-    return error.message;
-  }
+*   update account
+* *************************** */
+async function updatePassword( account_password, account_id ) {
+try {
+  console.log(account_password, account_id)
+  const sql = "UPDATE account SET account_password = $1 WHERE account_id = $2 RETURNING *";
+  const result = await pool.query(sql, [account_password, account_id]);
+  return result.rows[0]; // Assuming you want to return the updated account data
+} catch (error) {
+  console.error("Error updating password:", error);
+  throw new Error("Failed to update password.");
+}
 }
 
-module.exports = { registerAccount, checkExistingEmail, getAccountByEmail, getAccountById, updateInformation, updatePassword }
+module.exports = { registerAccount, checkExistingEmail, getAccountByEmail, getAccountById, updateAccount, updatePassword }

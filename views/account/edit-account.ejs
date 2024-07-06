@@ -1,66 +1,47 @@
-<div class="edit-account-container">
-    <% if (title) { %>
-        <h1><%= title %></h1>
-    <% } else { %>
-        <% res.redirect('/'); %>
-    <% } %>
+<% if (title) { %>
+    <h1><%= title %></h1>
+  <% } else { %>
+    <% res.redirect('/'); %>
+  <% } %>
 
-    <% if (messages && messages.notice) { %>
-        <div class="flash-messages">
-            <% messages.notice.forEach(function(message) { %>
-                <div class="alert alert-danger"><%= message %></div>
-            <% }) %>
-        </div>
-    <% } %>
 
-    <% if (errors && errors.length > 0) { %>
-        <ul class="notice">
-            <% errors.forEach(function(error) { %>
-                <li><%= error.msg %></li>
-            <% }) %>
-        </ul>
-    <% } %>
-
-    <div id="form1">
-        <h2>Change Information</h2>
-        <form id="updateform1" action="/account/edit-information" method="POST">
-            <div class="form-group">
-                <label for="account_firstname">First name:</label>
-                <input type="text" id="account_firstname" name="account_firstname" required value="<%= locals.account_firstname %>">
-            </div>
-            <div class="form-group">
-                <label for="account_lastname">Last name:</label>
-                <input type="text" id="account_lastname" name="account_lastname" required value="<%= locals.account_lastname %>">
-            </div>
-            <div class="form-group">
-                <label for="account_email">Email address:</label>
-                <input type="email" id="account_email" name="account_email" required value="<%= locals.account_email %>">
-            </div>
-
-            <input type="hidden" name="account_id" value="<%= locals.accountData.account_id %>">
-
-            <div class="form-group">
-                <button type="submit" class="btn-primary">Update</button>
-            </div>
-        </form>
+  <% if (messages && messages.notice) { %>
+    <div class="flash-messages">
+      <% messages.notice.forEach(function(message) { %>
+        <div class="alert alert-success"><%= message %></div>
+      <% }) %>
     </div>
+  <% } %>
 
-    <div id="form2">
-        <h2>Change Password</h2>
-        <form id="updateform2" action="/account/edit-password" method="POST">
-            <div class="form-group">
-                <label for="account_password">Password:</label>
-                <input type="password" id="account_password" name="account_password" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
-            </div>
+<div>
+    <h2>You are now logged in.</h2>
+    <form id="updateAccount" method="post" action="/account/update">
+        <fieldset>
+            <label for="firstname">First Name*</label>
+            <input type="text" name="account_firstname" id="firstname" size="10" required value="<%= locals.account_firstname %>">
+            <label for="lastname">Last Name*</label>
+            <input type="text" name="account_lastname" id="lastname" required value="<%= locals.account_lastname %>">
+            <label for="email">Email*</label>
+            <input type="email" name="account_email" id="email" placeholder="someone@gmail.com" required value="<%= locals.account_email %>">
+            <input type="hidden" name="account_id" <% if(locals.account_id) { %> value="<%= locals.account_id %>" <% } %>>
+        </fieldset>
 
-            <input type="hidden" name="account_id" value="<%= locals.accountData.account_id %>">
-
-            <div class="form-group">
-                <button type="submit" class="btn-primary">Update</button>
-            </div>
-        </form>
-    </div>
+        <input type="submit" value="Update Account" class="submitBtn">
+    </form>
 </div>
 
-<script src="js/inv-update.js"></script>
-<script src="js/script.js"></script>
+<div>
+    <form id="updatePassword" method="post" action="/account/update/password">
+        <fieldset>
+            <label for="password">Password*</label>
+            <input type="password" name="account_password" id="pword" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^-a-zA-Z0-9])(?!.*\s).{12,}$">
+            <div><i>Password must be a minimum of 12 characters and include 1 capital letter, 1 number, and 1 special character.</i></div>
+            <span id="pswdBtn">Show Password</span>
+            <input type="hidden" name="account_id" <% if(locals.account_id) { %> value="<%= locals.account_id %>" <% } %>>
+        </fieldset>
+
+        <input type="submit" value="Reset Password" class="submitBtn">
+    </form>
+</div>
+
+<script src="/js/script.js"></script>
