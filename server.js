@@ -6,6 +6,7 @@ const flash = require('connect-flash');
 const env = require('dotenv').config();
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser'); // Added for cookie parsing
+const path = require('path'); // Import path module
 const pool = require('./database/');
 const app = express();
 const baseController = require('./controllers/baseController');
@@ -49,18 +50,17 @@ app.use(function(req, res, next) {
 // View Engine and Layouts
 app.set('view engine', 'ejs');
 app.use(expressLayouts);
-app.set('views', path.join(__dirname, 'views'));
-
+app.set('views', path.join(__dirname, 'views')); // Correct usage of path module
 
 // Static files
 app.use(static);
 
 // Serve CSS files from the public/css folder
 const directoryPath = __dirname;
-app.use('/css', express.static(directoryPath + '/public/css'));
+app.use('/css', express.static(path.join(directoryPath, '/public/css')));
 
 // Serve images from the public/images folder
-app.use('/public/images', express.static(directoryPath + '/public/images'));
+app.use('/public/images', express.static(path.join(directoryPath, '/public/images')));
 
 // Index route
 app.get('/', baseController.buildHome);
