@@ -4,13 +4,13 @@ const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
 const flash = require('connect-flash');
 const dotenv = require('dotenv').config();
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser'); // Added for cookie parsing
+const pool = require('./database/');
 const app = express();
 const baseController = require('./controllers/baseController');
 const inventoryRoute = require('./routes/inventoryRoute');
 const accountRoute = require('./routes/accountRoute');
-const pool = require('./database/');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser'); // Added for cookie parsing
 const utilities = require('./utilities/'); // Added for utility functions
 
 // Middleware for session and flash messages
@@ -26,6 +26,9 @@ app.use(session({
 }));
 
 app.use(flash());
+
+// Middleware for parsing cookies
+app.use(cookieParser());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

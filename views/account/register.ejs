@@ -1,5 +1,9 @@
 <div class="register-container">
-    <h1><%= title %></h1>
+    <% if (title) { %>
+        <h1><%= title %></h1>
+        <% } else {
+            res.redirect('/')
+        } %>
 
     <% if (messages && messages.notice) { %>
         <div class="flash-messages">
@@ -42,6 +46,19 @@
                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}" 
                    title="Must contain at least 12 characters, one uppercase letter, one number, and one special character" required>
         </div>
+
+        <div id="regmessages">
+            <%- messages() %>
+        </div>
+    
+        <% if (errors) { %>
+            <ul class="notice">
+           <% errors.array().forEach(error => { %>
+             <li><%= error.msg %></li>
+        <%  }) %>
+           </ul>
+        <% } %>
+        
         <button type="submit" class="btn-primary">Register</button>
     </form>
 </div>
