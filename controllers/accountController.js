@@ -27,7 +27,7 @@ async function buildLogin(req, res, next) {
 /* ****************************************
  *  Process login attempt
  * *************************************** */
-async function accountLogin(req, res, next) {
+async function processLogin(req, res, next) {
   try {
     const { account_email, account_password } = req.body;
 
