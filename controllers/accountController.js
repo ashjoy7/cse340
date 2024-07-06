@@ -1,3 +1,10 @@
+So i want to use the second controller, but i need to make sure the naming of the functions uses the names from the first
+
+
+
+here's the first accountController.js
+
+
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");

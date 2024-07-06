@@ -25,7 +25,7 @@ router.post(
 router.get('/', utilities.checkLoginData, utilities.handleErrors(accountController.accountManagement));
 
 // Process logout attempt
-router.get('/logout', utilities.handleErrors(accountController.accountLogout));
+router.get('/logout', utilities.handleErrors(accountController.processLogout));
 
 // Route to process account edit view
 router.get('/edit-account/:account_id', utilities.handleErrors(accountController.editLoginInfo));
