@@ -69,7 +69,7 @@ async function processLogin(req, res, next) {
     }
 
     // Generate JWT token
-    const accessToken = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+    const accessToken = jwt.sign({ id: user.account_id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
 
     console.log('Generated access token:', accessToken); // Debugging: Check generated token
 
@@ -83,14 +83,18 @@ async function processLogin(req, res, next) {
     }
     res.cookie('jwt', accessToken, cookieOptions);
 
+    console.log('Setting JWT token in cookie:', accessToken); // Debugging: Check if token is set in cookie
+
     // Redirect after successful login
     req.flash('notice', 'Successfully logged in!');
+    console.log('Redirecting to /account'); // Debugging: Check if redirect is attempted
     res.redirect('/account');
 
   } catch (error) {
     next(error); // Pass error to Express error handler
   }
 }
+
 
 /* ****************************************
  *  Deliver registration view
