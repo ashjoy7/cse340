@@ -10,7 +10,7 @@
     <% } %>
 
     <% if (errors && errors.length > 0) { %>
-        <ul class="notice">
+        <ul id="error-list" class="notice">
             <% errors.forEach(function(error) { %>
                 <li><%= error.msg %></li>
             <% }) %>
@@ -61,3 +61,54 @@
         <button type="submit">Submit</button>
     </form>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('addInventoryForm').addEventListener('submit', function(event) {
+        const invMake = document.getElementById('inv_make').value.trim();
+        const invModel = document.getElementById('inv_model').value.trim();
+        const invYear = document.getElementById('inv_year').value;
+        const invDescription = document.getElementById('inv_description').value.trim();
+        const invPrice = document.getElementById('inv_price').value;
+        const invMiles = document.getElementById('inv_miles').value;
+        const invColor = document.getElementById('inv_color').value.trim();
+
+        const errors = [];
+
+        if (invMake === '') {
+            errors.push('Please enter a make for the vehicle.');
+        }
+
+        if (invModel === '') {
+            errors.push('Please enter a model for the vehicle.');
+        }
+
+        if (isNaN(invYear) || invYear < 1886 || invYear > 2099) {
+            errors.push('Please enter a valid year between 1886 and 2099.');
+        }
+
+        if (invDescription === '') {
+            errors.push('Please enter a description for the vehicle.');
+        }
+
+        if (isNaN(invPrice) || invPrice <= 0) {
+            errors.push('Please enter a valid price for the vehicle.');
+        }
+
+        if (isNaN(invMiles) || invMiles < 0) {
+            errors.push('Please enter a valid mileage for the vehicle.');
+        }
+
+        if (!/^[A-Za-z]+$/.test(invColor)) {
+            errors.push('Please enter a valid color name (letters only).');
+        }
+
+        if (errors.length > 0) {
+            event.preventDefault(); // Prevent form submission
+            const errorList = document.getElementById('error-list');
+            errorList.innerHTML = errors.map(error => `<li>${error}</li>`).join('');
+            errorList.style.display = 'block';
+        }
+    });
+});
+</script>
