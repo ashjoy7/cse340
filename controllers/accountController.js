@@ -25,76 +25,48 @@ async function buildLogin(req, res, next) {
 }
 
 /* ****************************************
- *  Process login attempt
- * *************************************** */
-async function processLogin(req, res, next) {
+ *  Process login request
+ * ************************************ */
+async function processLogin(req, res) {
+  let nav = await utilities.getNav();
+  const { account_email, account_password } = req.body;
+  const accountData = await accountModel.getAccountByEmail(account_email);
+  if (!accountData) {
+
+    req.flash("notice", "Please check your credentials and try again.");
+    res.status(400).render("account/login", {
+      title: "Login",
+      nav,
+      errors: null,
+      account_email,
+    })
+    return
+  }
+  
   try {
-    const { account_email, account_password } = req.body;
+    
+    if (await bcrypt.compare(account_password, accountData.account_password)) {
 
-    console.log('Received login attempt:', account_email); // Debugging: Check if email is received
+      delete accountData.account_password
+      const accessToken = jwt.sign(
+        accountData,
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: 3600 * 1000 }
+      );
+      if (process.env.NODE_ENV === "development") {
 
-    // Retrieve user by email
-    const user = await accountModel.checkExistingEmail(account_email);
-
-    console.log('Retrieved user:', user); // Debugging: Check if user is retrieved
-
-    // Check if user exists and compare passwords
-    if (!user || !account_password || !user.account_password) {
-      console.log('Invalid email or password.'); // Debugging: Log invalid case
-      req.flash('notice', 'Invalid email or password.');
-      return res.render('account/login', {
-        title: 'Login',
-        nav: await utilities.getNav(),
-        messages: req.flash('notice'),
-        errors: [],
-        account_email
-      });
+            res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 });
+      }else{
+        res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 });
+      }
+      
+      return res.redirect("/account/");
     }
-
-    // Compare passwords using bcrypt
-    const passwordMatch = await bcrypt.compare(account_password, user.account_password);
-
-    console.log('Password match:', passwordMatch); // Debugging: Check password comparison result
-
-    if (!passwordMatch) {
-      console.log('Invalid email or password.'); // Debugging: Log incorrect password case
-      req.flash('notice', 'Invalid email or password.');
-      return res.render('account/login', {
-        title: 'Login',
-        nav: await utilities.getNav(),
-        messages: req.flash('notice'),
-        errors: [],
-        account_email
-      });
-    }
-
-    // Generate JWT token
-    const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
-
-    console.log('Generated access token:', accessToken); // Debugging: Check generated token
-
-    // Set JWT token in cookie
-    const cookieOptions = {
-      httpOnly: true,
-      maxAge: 3600 * 1000 // 1 hour
-    };
-    if (process.env.NODE_ENV === 'production') {
-      cookieOptions.secure = true; // Set secure cookie in production
-    }
-    res.cookie('jwt', accessToken, cookieOptions);
-
-    console.log('Setting JWT token in cookie:', accessToken); // Debugging: Check if token is set in cookie
-
-    // Redirect after successful login
-    req.flash('notice', 'Successfully logged in!');
-    console.log('Redirecting to /account'); // Debugging: Check if redirect is attempted
-    res.redirect('/account');
-
   } catch (error) {
-    next(error); // Pass error to Express error handler
+
+    return new Error("Access Forbidden");
   }
 }
-
 
 
 /* ****************************************
