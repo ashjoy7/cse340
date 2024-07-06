@@ -33,19 +33,20 @@ validate.regRules = () => {
         next()
         }
     }
-validate.invRules = () => {
-  return [
-    body('inv_make').trim().isAlpha().withMessage('Make must only contain letters'),
-    body('inv_model').trim().isAlpha().withMessage('Model must only contain letters'),
-    body('inv_year').trim().isInt({ min: 1886, max: 2099 }).withMessage('Year must be an integer between 1886 and 2099'),
-    body('inv_description').trim().isLength({ min: 1 }).withMessage('Description is required'),
-    body('inv_image').trim().isLength({ min: 1 }).withMessage('Image is required'),
-    body('inv_thumbnail').trim().isLength({ min: 1 }).withMessage('Thumbnail is required'),
-    body('inv_price').trim().isInt({ min: 0 }).withMessage('Price must be an integer greater than or equal to 0'),
-    body('inv_miles').trim().isInt({ min: 0 }).withMessage('Miles must be an integer greater than or equal to 0'),
-    body('inv_color').trim().isAlpha().withMessage('Color must only contain letters'),
-  ];
-};
+    validate.invRules = () => {
+      return [
+        body('inv_make').trim().isAlphanumeric().withMessage('Make must only contain letters and numbers'),
+        body('inv_model').trim().isAlphanumeric().withMessage('Model must only contain letters and numbers'),
+        body('inv_year').trim().isInt({ min: 1886, max: 2099 }).withMessage('Year must be an integer between 1886 and 2099'),
+        body('inv_description').trim().isLength({ min: 1 }).withMessage('Description is required'),
+        body('inv_image').trim().isLength({ min: 1 }).withMessage('Image is required'),
+        body('inv_thumbnail').trim().isLength({ min: 1 }).withMessage('Thumbnail is required'),
+        body('inv_price').trim().isInt({ min: 0 }).withMessage('Price must be an integer greater than or equal to 0'),
+        body('inv_miles').trim().isInt({ min: 0 }).withMessage('Miles must be an integer greater than or equal to 0'),
+        body('inv_color').trim().isAlpha().withMessage('Color must only contain letters'),
+      ];
+    };
+    
 
 validate.invCheck = async (req, res, next) => {
   const errors = validationResult(req);
