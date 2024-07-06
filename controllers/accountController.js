@@ -27,7 +27,7 @@ async function buildLogin(req, res, next) {
 /* ****************************************
  *  Process login attempt
  * *************************************** */
-async function processLogin(req, res, next) {
+async function accountLogin(req, res, next) {
   try {
     const { account_email, account_password } = req.body;
 
@@ -69,7 +69,7 @@ async function processLogin(req, res, next) {
     }
 
     // Generate JWT token
-    const accessToken = jwt.sign({ id: user.account_id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+    const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
 
     console.log('Generated access token:', accessToken); // Debugging: Check generated token
 
@@ -94,6 +94,7 @@ async function processLogin(req, res, next) {
     next(error); // Pass error to Express error handler
   }
 }
+
 
 
 /* ****************************************
