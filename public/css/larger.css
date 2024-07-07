@@ -195,7 +195,7 @@ body {
   margin: 20px auto;
   padding: 20px;
   background-color: white;
-  border: 2px solid #007bff;
+  border: 2px solid #003f83;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -325,7 +325,7 @@ body {
 }
 
 .btn-primary {
-  background-color: #007bff;
+  background-color: #003f83;
   color: white;
   padding: 10px 15px;
   border: none;
@@ -336,7 +336,7 @@ body {
 }
 
 .btn-primary:hover {
-  background-color: #0056b3;
+  background-color: #003f83;
 }
 
 p {
@@ -344,7 +344,7 @@ p {
 }
 
 p a {
-  color: #007bff;
+  color: #003f83;
   text-decoration: none;
 }
 
@@ -383,7 +383,7 @@ p a:hover {
 }
 
 .btn-primary {
-  background-color: #007bff;
+  background-color: #003f83;
   color: white;
   padding: 10px 15px;
   border: none;
@@ -402,7 +402,7 @@ p {
 }
 
 p a {
-  color: #007bff;
+  color: #003f83;
   text-decoration: none;
 }
 
@@ -449,7 +449,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 button {
-  background-color: #4CAF50;
+  background-color: #003f83;
   color: white;
   padding: 10px 20px;
   border: none;
