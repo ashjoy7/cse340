@@ -2,9 +2,11 @@
   <% if (title) { %>
     <h1><%= title %></h1>
   <% } else { %>
-    <% res.redirect('/'); %>
+    <% /* Consider displaying an error message or a different approach */ %>
+    <p>Title is not defined. Redirecting...</p>
+    <% /* This should ideally be handled in your server-side logic */ %>
+    <% /* res.redirect('/'); */ %>
   <% } %>
-
 
   <% if (messages && messages.notice) { %>
     <div class="flash-messages">
@@ -13,33 +15,32 @@
       <% }) %>
     </div>
   <% } %>
+</div>
 
 <div class="login-container">
   <form id="loginForm" action="/account/login" method="post">
-      <div class="form-group">
-        <label for="account_email" class="top">Email*</label>
-        <input
-          id="account_email"
-          type="email"
-          name="account_email"
-          placeholder="someone@gmail.com"
-          required
-        />
-      </div>
-      
-      <div class="form-group">
-        <label for="account_password" class="top">Password*</label>
-        <input
-          id="account_password"
-          type="password"
-          name="account_password"
-          placeholder="*********"
-          required
-          pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
-        />
-      </div>
-      
-    </fieldset>
+    <div class="form-group">
+      <label for="account_email" class="top">Email*</label>
+      <input
+        id="account_email"
+        type="email"
+        name="account_email"
+        placeholder="someone@gmail.com"
+        required
+      />
+    </div>
+    
+    <div class="form-group">
+      <label for="account_password" class="top">Password*</label>
+      <input
+        id="account_password"
+        type="password"
+        name="account_password"
+        placeholder="*********"
+        required
+        pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
+      />
+    </div>
     
     <button type="submit" class="submitBtn">Login</button>
   </form>
@@ -48,6 +49,3 @@
     <p>Don't have an account? <a href="/account/register">Register now!</a></p>
   </div>
 </div>
-
-
-
