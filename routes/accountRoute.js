@@ -4,6 +4,12 @@ const accountController = require("../controllers/accountController");
 const utilities = require("../utilities");
 const regValidate = require("../utilities/account-validation");
 
+//Defaul route to /account/ root 
+router.get(
+  "/",
+  utilities.checkLogin, 
+  utilities.handleErrors(accountController.accountManagement))
+
 // Deliver Login View
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
 
