@@ -173,7 +173,7 @@ Util.checkLogin = (req, res, next) => {
   let section = ""
   if (account_type === "Admin" || account_type === "Employee") {
     section += "<h3>Inventory Managment</h3>";
-    section += `<a href="../inv/management" title="Manage Inventory Items">Manage Inventory Items</a>`;
+    section += `<a href="../inv/" title="Manage Inventory Items">Manage Inventory Items</a>`;
   }
   return section
  }

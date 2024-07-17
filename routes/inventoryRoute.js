@@ -35,7 +35,7 @@ router.post(
 );
 
 router.post(
-    '/edit-inventory',
+    '/edit-inventory/:inv_id',
     validate.invRules(),
     validate.updateCheck,
     utilities.handleErrors(invController.updateInventory)
