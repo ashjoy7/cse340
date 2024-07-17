@@ -1,4 +1,5 @@
 const invModel = require("../models/inventory-model")
+const accountModel = require("../models/account-model")
 const Util = {}
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
@@ -168,9 +169,56 @@ Util.checkLogin = (req, res, next) => {
   let section = ""
   if (account_type === "Admin" || account_type === "Employee") {
     section += "<h3>Inventory Managment</h3>";
-    section += `<a href="../inv/management" title="Manage Inventory Items">manage inventory items and categories</a>`;
+    section += `<a href="../inv/management" title="Manage Inventory Items">Manage Inventory Items</a>`;
   }
   return section
  }
+
+/* ************************
+ * Constructs the inbox with the data passed in
+ ************************** */
+Util.buildInboxTable = async function (data) {
+  let inboxTable = '';
+
+  if (data && data.length > 0) {
+      inboxTable += '<table id="inboxDisplay">';
+      inboxTable += '<thead>';
+      inboxTable += '<tr><th>Received</th><th>Subject</th><th>From</th><th>Read</th></tr>';
+      inboxTable += '</thead>';
+      inboxTable += '<tbody>';
+      
+      await Promise.all(data.map(async (element) => {
+          const timestamp = element.message_created;
+          const date = new Date(timestamp);
+          const formattedTimestamp = date.toLocaleString('en-US', {
+              month: '2-digit',
+              day: '2-digit',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+              hour12: true
+          });
+
+          const message_id = element.message_id;
+          const message_from = element.message_from;
+
+          const accountData = await accountModel.getAccountById(message_from);
+          const messageSenderName = accountData[0].account_firstname + " " + accountData[0].account_lastname;
+
+          inboxTable += `<tr><td>${formattedTimestamp}</td><td><a href="/message/read/${message_id}">${element.message_subject}</a></td><td>${messageSenderName}</td><td>${element.message_read}</td></tr>`;
+      }));
+
+      inboxTable += '</tbody>';
+      inboxTable += '</table>';
+  } else {
+      inboxTable += '<p class="notice">No messages available.</p>'; // Changed message here
+  }
+
+  return inboxTable;
+};
+
+
+
 
 module.exports = Util

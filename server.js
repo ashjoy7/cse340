@@ -13,7 +13,10 @@ const baseController = require('./controllers/baseController');
 const static = require("./routes/static");
 const inventoryRoute = require('./routes/inventoryRoute');
 const accountRoute = require('./routes/accountRoute');
-const utilities = require('./utilities/'); // Added for utility functions
+const messageRoute = require('./routes/messageRoute');
+const utilities = require('./utilities/'); 
+const accountModel = require('./models/account-model');
+
 
 // Middleware for session and flash messages
 app.use(session({
@@ -70,6 +73,9 @@ app.use('/inv', inventoryRoute);
 
 // Account routes
 app.use('/account', accountRoute);
+
+// Message route
+app.use("/message", messageRoute)
 
 // Handle 404 errors
 app.use(function(req, res, next) {

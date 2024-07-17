@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const invController = require('../controllers/invController'); // replace with the actual path to your file
+const invController = require('../controllers/invController');
 const utilities = require("../utilities/");
 const validate = require('../utilities/validation');
 

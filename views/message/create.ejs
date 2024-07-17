@@ -1,0 +1,44 @@
+<!-- Content Heading -->
+<% if (title) { %>
+    <h1><%= title %></h1>
+<% } %>
+
+<!-- Display flash messages -->
+<% if (messages && messages.notice) { %>
+    <div class="flash-messages">
+        <% messages.notice.forEach(function(message) { %>
+            <div class="alert alert-success"><%= message %></div>
+        <% }) %>
+    </div>
+<% } %>
+
+<!-- Display errors (if any) -->
+<% if (errors && errors.length > 0) { %>
+    <ul class="notice">
+        <% errors.forEach(function(error) { %>
+            <li><%= error.msg %></li>
+        <% }) %>
+    </ul>
+<% } %>
+
+<!-- Display content -->
+
+<div id="form-wrapper">
+    <p>This is an internal messaging system where you may send a message to one of our support staff</p>
+    <form id="new-message-form" action="/message/create" method="post">
+        <p>All inputs are required.</p>
+        <label for="message_to">To:</label><br>
+        <select name="message_to" id="message_to" required>
+            <option value="">Select a Recipient</option>
+            <option value="9">Sales Team</option>
+            <option value="10">Acquisitions Team</option>
+            <option value="11">Manager</option>
+        </select><br>
+        <label for="message_subject">Subject:</label><br>
+        <input type="text" id="message_subject" name="message_subject" required value="<%= locals.message_subject %>"><br>
+        <label for="message_body">Message:</label><br>
+        <textarea name="message_body" id="message_body" rows="10" required><%= locals.message_body %></textarea>
+        <button id="submit-btn" type="submit">Send</button>
+        <input type="hidden" name="message_from" value="<%= locals.accountData.account_id %>">
+    </form>
+</div>
